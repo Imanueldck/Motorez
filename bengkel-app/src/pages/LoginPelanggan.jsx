@@ -18,8 +18,7 @@ const LoginPelanggan = () => {
       const data = await loginUser(formData);
       console.log("Login berhasil:", data);
       alert("Login Berhasil");
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.access_token);
       navigate("/");
     } catch (error) {
       console.error("Login gagal:", error);

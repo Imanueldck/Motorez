@@ -20,7 +20,7 @@ const Profile = () => {
     }
 
     axios
-      .get("https://097a-2404-8000-1038-82-1c9c-9cab-3316-4a37.ngrok-free.app/api/user", {
+      .get("https://dashing-heron-precious.ngrok-free.app/api/user", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -40,7 +40,7 @@ const Profile = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .put("https://097a-2404-8000-1038-82-1c9c-9cab-3316-4a37.ngrok-free.app/api/user/update", { name: user.name, email: user.email, password }, { headers: { Authorization: `Bearer ${token}` } })
+      .put("https://dashing-heron-precious.ngrok-free.app/api/user/update", { name: user.name, email: user.email, password }, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         setMessage("Profil berhasil diperbarui!");
       })

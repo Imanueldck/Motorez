@@ -1,17 +1,36 @@
 import axios from "axios";
 
-const API_URL = "https://097a-2404-8000-1038-82-1c9c-9cab-3316-4a37.ngrok-free.app/api";
+const API_URL = "https://dashing-heron-precious.ngrok-free.app/api";
 
 export const loginUser = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/login`, formData);
-    console.log("Login Response:", response.data); // Debugging response
-    if (response.data.access_token) {
-      localStorage.setItem("token", response.data.access_token);
-    }
-    window.location.reload(); // Reload agar useEffect di Profile terpanggil
+    console.log("Login Response:", response.data); // Debugging
+    return response.data;
   } catch (error) {
-    console.error("Login Error:", error.response?.data || error.message);
+    throw error.response?.data || error.message;
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    await axios.post(`${API_URL}/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true", // Add this if using ngrok
+      },
+    });
+
+    // Remove token from local storage
+    localStorage.removeItem("token");
+
+    // Redirect to login page
+    // window.location.href = "/login"; // or use useNavigate() if inside a component
+  } catch (error) {
+    console.error("Logout Error:", error);
   }
 };
 

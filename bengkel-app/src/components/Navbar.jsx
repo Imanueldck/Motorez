@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaWrench, FaUser, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import "../styles/navbar.css";
+import { logoutUser } from "../pages/HandleApi";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -15,19 +16,23 @@ const Navbar = () => {
     if (!token) return;
 
     axios
-      .get("https://097a-2404-8000-1038-82-1c9c-9cab-3316-4a37.ngrok-free.app/api/user", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    .get("https://dashing-heron-precious.ngrok-free.app/api/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true",  // Add this line
+      },
+    })
       .then((response) => {
-        setUser(response.data);
-        localStorage.setItem("user", JSON.stringify(response.data));
+        setUser(response.data)
+        console.log(response.data);
+        
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Error fetching user:", error);
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setUser(null);
-      });
-  };
+        // navigate("/login");
+      });
+  };
 
   useEffect(() => {
     fetchUser();
@@ -42,8 +47,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    logoutUser();
     setUser(null);
     navigate("/");
   };

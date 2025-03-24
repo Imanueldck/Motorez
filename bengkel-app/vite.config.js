@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://097a-2404-8000-1038-82-1c9c-9cab-3316-4a37.ngrok-free.app/",
+        target: "https://dashing-heron-precious.ngrok-free.app/",
         changeOrigin: true,
         secure: false,
       },
