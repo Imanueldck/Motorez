@@ -1,0 +1,104 @@
+.faq-section {
+  padding: 40px 20px;
+  background-color: #f8faff;
+  border-radius: 10px;
+  max-width: 90%;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.faq-wrapper {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.faq-title {
+  flex: 1;
+  min-width: 250px;
+  color: #1236a4;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center; /* Menengahkan teks */
+  position: relative; /* Untuk mengatur posisi garis bawah */
+  padding-bottom: 10px; /* Jarak antara teks dan garis bawah */
+  margin-bottom: 20px; /* Memberikan jarak dengan elemen di bawahnya */
+}
+
+.faq-title::after {
+  content: "";
+  display: block;
+  width: 60px; /* Panjang garis bawah */
+  height: 3px; /* Ketebalan garis bawah */
+  background-color: #1236a4; /* Warna garis sesuai tema */
+  margin: 8px auto 0; /* Menempatkan garis di tengah */
+  border-radius: 2px; /* Membuat ujung garis sedikit melengkung */
+}
+
+.faq-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+}
+
+.faq-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+  background-color: #1236a4;
+  color: white;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+  background-color: #0d2b7a;
+}
+
+.faq-answer {
+  padding: 15px 20px;
+  background-color: #f9f9f9;
+  color: #333;
+  border-top: 1px solid #ddd;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-wrapper {
+    flex-direction: column;
+  }
+
+  .faq-title,
+  .faq-container {
+    min-width: 100%;
+  }
+}

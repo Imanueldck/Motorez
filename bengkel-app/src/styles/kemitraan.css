@@ -1,0 +1,148 @@
+.kemitraan-page {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+.kemitraan-hero {
+  height: 60vh;
+  background: linear-gradient(135deg, #305ce0, #0d2b7a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+}
+
+.kemitraan-hero .hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn-cta {
+  background-color: #1236a4;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+}
+
+.btn-cta:hover {
+  background-color: #0e2b89;
+}
+
+.kemitraan-benefits {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+.kemitraan-benefits h2 {
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  color: #1236a4;
+}
+
+.keuntungan-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.kemitraan-card {
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 30px 20px;
+  width: 250px;
+  transition: transform 0.3s;
+}
+
+.kemitraan-card:hover {
+  transform: translateY(-10px);
+}
+
+.kemitraan-card h3 {
+  color: #1236a4;
+  margin-bottom: 15px;
+}
+
+.kemitraan-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #1236a4;
+  color: #fff;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .keuntungan-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kemitraan-card {
+    width: 80%;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+
+  .btn-cta {
+    padding: 10px 20px;
+  }
+
+  .kemitraan-benefits h2 {
+    font-size: 2rem;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+  }
+}

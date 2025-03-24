@@ -1,0 +1,84 @@
+/* Container */
+.caribengkel-container {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+}
+
+/* Hero Section */
+.caribengkel-hero {
+  background: linear-gradient(to right, #1236a4, #1e56a0);
+  color: white;
+  padding: 60px 20px;
+  border-radius: 0 0 80px 80px;
+  position: relative;
+}
+
+.caribengkel-hero .overlay {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.caribengkel-hero h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.caribengkel-hero .highlight {
+  color: yellow;
+}
+
+/* Search Bar */
+.caribengkel-search {
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.caribengkel-search input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  outline: none;
+}
+
+/* Daftar Bengkel */
+.caribengkel-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.caribengkel-card {
+  background: white;
+  padding: 20px;
+  margin: 10px;
+  width: 280px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.caribengkel-card:hover {
+  transform: scale(1.05);
+}
+
+.caribengkel-card h3 {
+  font-size: 20px;
+  color: #1236a4;
+}
+
+.caribengkel-card p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Pesan Tidak Ditemukan */
+.caribengkel-notfound {
+  font-size: 16px;
+  color: red;
+  margin-top: 20px;
+}

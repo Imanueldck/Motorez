@@ -1,0 +1,157 @@
+/* General styles */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom right, #66b79d, #2b8569);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Register box */
+.register-box {
+  display: flex;
+  width: 800px;
+  background: white;
+  border-radius: 19px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Left side (Direct to Login) */
+.register-left {
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+  background: linear-gradient(to bottom right, #0ba360, #3cba92);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-text {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.signup-text {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Sign Up Button */
+.signup-button {
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.signup-button:hover {
+  background: white;
+  color: #0ba360;
+  transform: scale(1.05);
+}
+
+/* Label styling */
+.auth-label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Right side (Register Form) */
+.register-right {
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+}
+
+.register-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.register-input-group {
+  margin-bottom: 15px;
+}
+
+.register-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.register-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Register Button */
+.register-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #007bff, #0056b3);
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.register-button:hover {
+  background: linear-gradient(to right, #0056b3, #003f80);
+  transform: scale(1.05);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .register-box {
+    flex-direction: column;
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .register-left,
+  .register-right {
+    flex: none;
+    width: 100%;
+    padding: 30px;
+  }
+
+  .register-right {
+    border-radius: 0 0 10px 10px;
+  }
+}

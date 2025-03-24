@@ -1,0 +1,40 @@
+.bengkel-banner {
+  background-image: url("../assets/bg-banner.png"); /* Ganti dengan path gambar Anda */
+  background-size: cover;
+  background-position: center;
+  border-top-right-radius: 120px; /* Border radius hanya di atas kanan */
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.bengkel-content {
+  text-align: center;
+  color: rgb(237, 234, 234);
+  padding: 20px 30px;
+  border-radius: 12px;
+}
+
+.bengkel-content h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.bengkel-button {
+  background-color: #9fa412;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.bengkel-button:hover {
+  background-color: #0d2a84;
+}
