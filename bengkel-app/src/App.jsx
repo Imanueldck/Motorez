@@ -13,8 +13,8 @@ import RegisterPelanggan from "./pages/RegisterPelanggan";
 import RegisterPemilik from "./pages/RegisterPemilik";
 import LoginPelanggan from "./pages/LoginPelanggan";
 import LoginPemilik from "./pages/LoginPemilik";
-import DashboardPemilik from "./pages/DashboardPemilik";
-import Profile from "./components/profile";
+import DashboardPemilik from "./pemilik/DashboardPemilik";
+import Profile from "./components/Profile";
 
 function AppContent() {
   const location = useLocation();

@@ -1,0 +1,126 @@
+.dashboard-pemilik-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar-pemilik {
+  width: 250px;
+  background: #1236a4;
+  color: white;
+  padding: 20px;
+  transition: width 0.3s;
+}
+
+.sidebar-closed {
+  width: 60px;
+}
+
+.toggle-btn-pemilik {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.nav-buttons-pemilik {
+  margin-top: 20px;
+}
+
+.nav-item-pemilik {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item-pemilik i {
+  margin-right: 10px;
+}
+
+.logout-pemilik {
+  margin-top: 20px;
+  color: #ff6b6b;
+}
+
+/* Main Content */
+.main-content-pemilik {
+  flex-grow: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.main-content-pemilik.open {
+  margin-left: 40px;
+}
+
+.main-content-pemilik.closed {
+  margin-left: 40px;
+}
+
+.dashboard-title-pemilik {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #252b67;
+}
+
+/* Grid untuk Statistik */
+.stats-pemilik {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Card Styling */
+.stat-card-pemilik {
+  background: rgb(51, 53, 77);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  transition: transform 0.2s ease-in-out;
+}
+
+.stat-card-pemilik:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .main-content-pemilik.open {
+    margin-left: 20px;
+  }
+
+  .main-content-pemilik.closed {
+    margin-left: 30px;
+  }
+
+  .stats-pemilik {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content-pemilik {
+    padding: 15px;
+  }
+
+  .dashboard-title-pemilik {
+    font-size: 20px;
+  }
+
+  .stat-card-pemilik {
+    font-size: 16px;
+    padding: 15px;
+  }
+}
