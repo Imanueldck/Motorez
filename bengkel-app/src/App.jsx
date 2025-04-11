@@ -15,6 +15,7 @@ import LoginPelanggan from "./pages/LoginPelanggan";
 import LoginPemilik from "./pages/LoginPemilik";
 import DashboardPemilik from "./pemilik/DashboardPemilik";
 import Profile from "./components/Profile";
+import "leaflet/dist/leaflet.css";
 
 function AppContent() {
   const location = useLocation();
