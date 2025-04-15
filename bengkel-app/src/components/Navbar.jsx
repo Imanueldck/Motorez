@@ -1,38 +1,32 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars, FaTimes, FaWrench, FaUser, FaUserCircle } from "react-icons/fa";
-import axios from "axios";
+import {
+  FaBars,
+  FaTimes,
+  FaWrench,
+  FaUser,
+  FaUserCircle,
+} from "react-icons/fa";
 import "../styles/navbar.css";
-import { logoutUser } from "../pages/HandleApi";
+import { logoutUser, getUserProfile } from "../pages/HandleApi";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const fetchUser = () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    axios
-    .get("https://dashing-heron-precious.ngrok-free.app/api/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "ngrok-skip-browser-warning": "true",  // Add this line
-      },
-    })
-      .then((response) => {
-        setUser(response.data)
-        console.log(response.data);
-        
-      })
-      .catch((error) => {
-        console.error("Error fetching user:", error);
-        localStorage.removeItem("token");
-        // navigate("/login");
-      });
-  };
+  const fetchUser = async () => {
+    try {
+      const userData = await getUserProfile();
+      setUser(userData);
+    } catch (err) {
+      console.error("Gagal mengambil data user:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchUser();
@@ -46,8 +40,8 @@ const Navbar = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleLogout = () => {
-    logoutUser();
+  const handleLogout = async () => {
+    await logoutUser();
     setUser(null);
     navigate("/");
   };
@@ -81,10 +75,12 @@ const Navbar = () => {
         </ul>
 
         <div className="navbar-auth">
-          {user ? (
+          {isLoading ? (
+            <span className="loading-text">Loading...</span>
+          ) : user ? (
             <div className="profile-menu">
               <Link to="/profile" className="profile-link">
-                <FaUserCircle className="profile-icon" /> {/* Ikon profil */}
+                <FaUserCircle className="profile-icon" />
                 <span className="profile-name">{user.name}</span>
               </Link>
               <button className="logout-btn" onClick={handleLogout}>
@@ -129,14 +125,20 @@ const Navbar = () => {
               Contact
             </Link>
           </li>
-          {user ? (
+          {isLoading ? null : user ? (
             <>
               <li className="sidebar-user">
                 <FaUserCircle className="sidebar-icon" />
                 <span>{user.name}</span>
               </li>
               <li>
-                <button className="logout-btn" onClick={handleLogout}>
+                <button
+                  className="logout-btn"
+                  onClick={() => {
+                    toggleSidebar();
+                    handleLogout();
+                  }}
+                >
                   Logout
                 </button>
               </li>
@@ -161,11 +163,19 @@ const Navbar = () => {
             <h2>Masuk Sebagai</h2>
             <p>Pilih jenis akun untuk login</p>
             <div className="login-options">
-              <Link to="/login/pelanggan" className="login-option pelanggan" onClick={toggleModal}>
+              <Link
+                to="/login/pelanggan"
+                className="login-option pelanggan"
+                onClick={toggleModal}
+              >
                 <FaUser />
                 <span>Pelanggan</span>
               </Link>
-              <Link to="/login/pemilik" className="login-option bengkel" onClick={toggleModal}>
+              <Link
+                to="/login/pemilik"
+                className="login-option bengkel"
+                onClick={toggleModal}
+              >
                 <FaWrench />
                 <span>Pemilik Bengkel</span>
               </Link>
