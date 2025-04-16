@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "admin-lte/dist/css/adminlte.min.css";
@@ -16,10 +21,14 @@ import LoginPemilik from "./pages/LoginPemilik";
 import DashboardPemilik from "./pemilik/DashboardPemilik";
 import Profile from "./components/Profile";
 import "leaflet/dist/leaflet.css";
+import BengkelDetail from "./pages/BengkelDetail";
 
 function AppContent() {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname.startsWith("/login") || location.pathname.startsWith("/register") || location.pathname.startsWith("/dashboard-pemilik");
+  const hideHeaderFooter =
+    location.pathname.startsWith("/login") ||
+    location.pathname.startsWith("/register") ||
+    location.pathname.startsWith("/dashboard-pemilik");
 
   return (
     <div>
@@ -35,6 +44,7 @@ function AppContent() {
         <Route path="/login/pelanggan" element={<LoginPelanggan />} />
         <Route path="/login/pemilik" element={<LoginPemilik />} />
         <Route path="/dashboard-pemilik" element={<DashboardPemilik />} />
+        <Route path="/bengkel/:id" element={<BengkelDetail />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </div>

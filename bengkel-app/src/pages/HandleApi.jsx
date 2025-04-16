@@ -3,6 +3,14 @@ import Swal from "sweetalert2";
 
 const API_URL = "http://localhost:8000/api"; // Ganti dengan URL kamu jika pakai ngrok
 
+// deatil bengkel
+export const getBengkelById = async (id) => {
+  const response = await fetch(`http://localhost:8000/api/bengkel/${id}`);
+  if (!response.ok) {
+    throw new Error("Gagal mengambil data bengkel");
+  }
+  return response.json();
+};
 // REGISTER
 export const registerUser = async (formData) => {
   try {
@@ -30,24 +38,29 @@ export const registerUser = async (formData) => {
 export const loginUser = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/login`, formData);
+    console.log("Login Response: ", response.data);
     const token = response?.data?.access_token;
+    const user = response?.data?.user;
 
-    if (token) {
-      localStorage.setItem("token", token);
+    if (token && user) {
+      localStorage.setItem("user", JSON.stringify(user));
+
+      if (user.role !== "owner_bengkel") {
+        await Swal.fire({
+          icon: "error",
+          title: "Akses Ditolak",
+          text: "Akun Anda bukan pemilik bengkel.",
+        });
+        return null;
+      }
+
+      return token;
     }
-
-    await Swal.fire({
-      icon: "success",
-      title: "Welcome!",
-      text: "Login successful!",
-    });
-
-    return token;
   } catch (err) {
     Swal.fire({
       icon: "error",
-      title: "Login Failed",
-      text: err.response?.data?.message || "Invalid credentials",
+      title: "Login Gagal",
+      text: err.response?.data?.message || "Email atau password salah",
     });
 
     throw err.response?.data?.message || "Invalid credentials";
@@ -151,15 +164,6 @@ export const getAllBengkel = async (lats, longs) => {
         long: longs,
       },
     });
-    return response.data;
-  } catch (err) {
-    throw err.response?.data?.message || "Failed to fetch all bengkel data";
-  }
-};
-// deatil bengkel
-export const getDetailBengkel = async (id) => {
-  try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/bengkel/${id}`);
     return response.data;
   } catch (err) {
     throw err.response?.data?.message || "Failed to fetch all bengkel data";

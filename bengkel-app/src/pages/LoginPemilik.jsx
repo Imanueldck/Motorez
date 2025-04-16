@@ -15,10 +15,25 @@ const LoginPemilik = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await loginUser(formData); // gunakan loginUser dari HandleApi
-      localStorage.setItem("token", token);
-      await Swal.fire("Berhasil", "Login berhasil!", "success");
-      navigate("/dashboard-pemilik");
+      const token = await loginUser(formData); // ini akan return token atau null jika role tidak sesuai
+
+      // Ambil user dari localStorage
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (token && user?.role === "owner_bengkel") {
+        localStorage.setItem("token", token);
+        await Swal.fire("Berhasil", "Login berhasil!", "success");
+        navigate("/dashboard-pemilik");
+      } else {
+        // Jika bukan owner_bengkel
+        await Swal.fire(
+          "Akses Ditolak",
+          "Anda bukan pemilik bengkel!",
+          "error"
+        );
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
     } catch (error) {
       console.error("Login gagal:", error);
       Swal.fire("Gagal", error || "Login gagal. Coba lagi!", "error");

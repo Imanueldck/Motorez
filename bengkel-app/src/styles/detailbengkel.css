@@ -1,0 +1,45 @@
+.bengkeldetail-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .bengkeldetail-container h2 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  .bengkeldetail-container p {
+    margin: 0.5rem 0;
+    font-size: 16px;
+    color: #34495e;
+  }
+  
+  .bengkeldetail-container strong {
+    color: #000;
+  }
+  
+  .btn.btn-secondary {
+    display: inline-block;
+    background-color: #bdc3c7;
+    color: #2c3e50;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn.btn-secondary:hover {
+    background-color: #95a5a6;
+    color: white;
+  }
+  
+  .leaflet-container {
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+  
