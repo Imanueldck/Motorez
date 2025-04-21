@@ -110,53 +110,42 @@ export default function Bengkel() {
       </div>
 
       {/* Card Daftar Bengkel */}
-      <div className="card container">
-        <div className="card-header">
-          <h3 className="card-title">Daftar Bengkel</h3>
-        </div>
-        <div className="card-body">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nama</th>
-                  <th>Deskripsi</th>
-                  <th>Jam Buka</th>
-                  <th>Jam Tutup</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
-                  <th>Distance</th>
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bengkels.map((bengkel) => (
-                  <tr key={bengkel.id}>
-                    <td>{bengkel.id}</td>
-                    <td>{bengkel.nama}</td>
-                    <td>{bengkel.deskripsi}</td>
-                    <td>{bengkel.jam_buka}</td>
-                    <td>{bengkel.jam_selesai}</td>
-                    <td>{bengkel.lat}</td>
-                    <td>{bengkel.long}</td>
-                    <td>{bengkel.distance} meters</td>
-                    <td>
-                      <Link
-                        to={`/bengkel/${bengkel.id}`}
-                        className="btn btn-primary"
-                      >
-                        View Details
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+      <div className="daftarbengkel-container my-4">
+        <h3 className="daftar-bengkel-judul">Daftar Bengkel Terdekat</h3>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="daftarbengkel-card-container">
+            {bengkels.map((bengkel) => (
+              <div key={bengkel.id} className="daftarbengkel-card">
+                <img
+                  src={bengkel.image || "/placeholder.jpg"} // fallback gambar jika tidak ada
+                  alt={bengkel.nama}
+                  className="daftarbengkel-image"
+                />
+                <div className="daftarbengkel-card-body">
+                  <h5 className="daftarbengkel-title">{bengkel.nama}</h5>
+                  <p className="daftarbengkel-description">
+                    {bengkel.deskripsi}
+                  </p>
+                  <p>
+                    <strong>Jam Buka:</strong> {bengkel.jam_buka} <br />
+                    <strong>Jam Tutup:</strong> {bengkel.jam_selesai}
+                  </p>
+                  <p>
+                    <strong>Jarak:</strong> {bengkel.distance} meters
+                  </p>
+                  <Link
+                    to={`/bengkel/${bengkel.id}`}
+                    className="daftarbengkel-btn-card"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

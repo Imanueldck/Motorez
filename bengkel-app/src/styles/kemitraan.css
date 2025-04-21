@@ -3,66 +3,135 @@
   color: #333;
 }
 
-.kemitraan-hero {
-  height: 60vh;
-  background: linear-gradient(135deg, #305ce0, #0d2b7a);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Hero Section */
+.kemitraan-page .kemitraan-hero-v2 {
+  position: relative;
+  background: linear-gradient(135deg, #0d2b7a, #305ce0);
+  padding: 50px 40px 0;
   color: #fff;
-  text-align: center;
+  overflow: hidden;
+  padding-bottom: 100px;
+  border: none;
+  outline: none;
 }
 
-.kemitraan-hero .hero-content h1 {
-  font-size: 2.5rem;
+.kemitraan-page .hero-inner {
+  padding: 100px 40px 140px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.kemitraan-page .text-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.kemitraan-page .text-left h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
-.hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+.kemitraan-page .text-left .highlight {
+  color: #ffb703;
 }
 
-.hero-content p {
-  font-size: 1.2rem;
+.kemitraan-page .text-left p {
+  font-size: 1.25rem;
+  max-width: 500px;
+  line-height: 1.6;
   margin-bottom: 30px;
 }
 
-.btn-cta {
-  background-color: #1236a4;
-  color: #fff;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.kemitraan-page .btn-modern {
+  background-color: #ffb703;
+  color: #0d2b7a;
+  padding: 14px 36px;
+  border-radius: 50px;
   font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
 }
 
-.btn-cta:hover {
-  background-color: #0e2b89;
+.kemitraan-page .btn-modern:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.kemitraan-benefits {
+.kemitraan-page .hero-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.kemitraan-page .hero-image img {
+  max-width: 90%;
+  height: auto;
+  animation: float 4s ease-in-out infinite;
+}
+
+.kemitraan-page .hero-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  border: none;
+  outline: none;
+  display: block;
+
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Benefits Section */
+.kemitraan-page .kemitraan-benefits {
   padding: 60px 20px;
   text-align: center;
   background-color: #f5f5f5;
 }
 
-.kemitraan-benefits h2 {
+.kemitraan-page .kemitraan-benefits h2 {
   margin-bottom: 40px;
   font-size: 2.5rem;
-  color: #1236a4;
+  color: #15224b;
+  position: relative;
+  display: inline-block;
 }
 
-.keuntungan-cards {
+.kemitraan-page .kemitraan-benefits h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #1e378a;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+
+.kemitraan-page .keuntungan-cards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
 }
 
-.kemitraan-card {
+.kemitraan-page .kemitraan-card {
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -71,78 +140,133 @@
   transition: transform 0.3s;
 }
 
-.kemitraan-card:hover {
+.kemitraan-page .kemitraan-card:hover {
   transform: translateY(-10px);
 }
 
-.kemitraan-card h3 {
+.kemitraan-page .kemitraan-card h3 {
   color: #1236a4;
   margin-bottom: 15px;
 }
 
-.kemitraan-card p {
+.kemitraan-page .kemitraan-card p {
   font-size: 1rem;
   color: #555;
 }
+.kemitraan-page .kemitraan-card {
+  background-color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 40px 20px;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
 
-.cta-section {
+.kemitraan-page .kemitraan-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.kemitraan-page .icon-circle {
+  background-color: #e7efff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #1236a4;
+}
+
+
+/* CTA Section */
+.kemitraan-page .cta-section {
   text-align: center;
   padding: 80px 20px;
-  background-color: #1236a4;
+  background: linear-gradient(135deg, #1236a4, #305ce0);
   color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 
-.cta-content h2 {
-  font-size: 2.5rem;
+.kemitraan-page .cta-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.kemitraan-page .cta-content h2 {
+  font-size: 2.8rem;
   margin-bottom: 20px;
+  font-weight: 700;
 }
 
-.cta-content p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+.kemitraan-page .cta-content p {
+  font-size: 1.25rem;
+  margin-bottom: 40px;
+  line-height: 1.6;
 }
 
+.kemitraan-page .btn-cta {
+  background-color: #ffb703;
+  color: #0d2b7a;
+  padding: 16px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.kemitraan-page .btn-cta:hover {
+  background-color: #f0a600;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsive */
 @media (max-width: 768px) {
-  .keuntungan-cards {
+  .kemitraan-page .keuntungan-cards {
     flex-direction: column;
     align-items: center;
   }
 
-  .kemitraan-card {
+  .kemitraan-page .kemitraan-card {
     width: 80%;
   }
 
-  .hero-content h1 {
+  .kemitraan-page .text-left h1 {
     font-size: 2.5rem;
   }
 
-  .hero-content p {
+  .kemitraan-page .text-left p {
     font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-content h1 {
+  .kemitraan-page .text-left h1 {
     font-size: 2rem;
   }
 
-  .hero-content p {
+  .kemitraan-page .text-left p {
     font-size: 0.9rem;
   }
 
-  .btn-cta {
+  .kemitraan-page .btn-cta {
     padding: 10px 20px;
   }
 
-  .kemitraan-benefits h2 {
+  .kemitraan-page .kemitraan-benefits h2,
+  .kemitraan-page .cta-content h2 {
     font-size: 2rem;
   }
 
-  .cta-content h2 {
-    font-size: 2rem;
-  }
-
-  .cta-content p {
+  .kemitraan-page .cta-content p {
     font-size: 1rem;
   }
 }

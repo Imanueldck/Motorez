@@ -94,3 +94,38 @@ export const updateBengkel = async (id, formData) => {
     throw err.response?.data?.message || "Update failed";
   }
 };
+// LOGOUT
+export const logoutUser = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    await axios.post(
+      `${API_URL}/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    localStorage.removeItem("token");
+
+    Swal.fire({
+      icon: "success",
+      title: "Logged out",
+      text: "You have been successfully logged out!",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Logout Failed",
+      text: err.response?.data?.message || "Logout failed",
+    });
+
+    throw err.response?.data?.message || "Logout failed";
+  }
+};

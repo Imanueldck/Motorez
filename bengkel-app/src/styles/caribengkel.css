@@ -44,37 +44,6 @@
   outline: none;
 }
 
-/* Daftar Bengkel */
-.caribengkel-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.caribengkel-card {
-  background: white;
-  padding: 20px;
-  margin: 10px;
-  width: 280px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.caribengkel-card:hover {
-  transform: scale(1.05);
-}
-
-.caribengkel-card h3 {
-  font-size: 20px;
-  color: #1236a4;
-}
-
-.caribengkel-card p {
-  font-size: 14px;
-  color: #555;
-}
 
 /* Pesan Tidak Ditemukan */
 .caribengkel-notfound {
@@ -87,4 +56,112 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* daftra  bengkel */
+/* Container keseluruhan */
+.daftarbengkel-container {
+  padding: 1.5rem 2rem; /* atas-bawah: 1.5rem, kiri-kanan: 2rem */
+  background-color: #f9f9f9;
+  max-width: 1700px;
+  margin: 0 auto; /* center secara horizontal */
+}
+
+
+/* Heading */
+.daftar-bengkel-judul {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+.daftar-bengkel-judul::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background-color: #007bff;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+/* Grid layout untuk kartu-kartu */
+.daftarbengkel-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card wrapper */
+.daftarbengkel-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.daftarbengkel-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Gambar */
+.daftarbengkel-image {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+/* Konten dalam card */
+.daftarbengkel-card-body {
+  padding: 1rem;
+}
+
+/* Judul */
+.daftarbengkel-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1236a4;
+  margin-bottom: 0.5rem;
+}
+
+/* Deskripsi */
+.daftarbengkel-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+/* Paragraf lainnya */
+.daftarbengkel-card p {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.daftarbengkel-card strong {
+  color: #1236a4;
+  font-weight: 600;
+}
+
+/* Tombol */
+.daftarbengkel-btn-card {
+  display: inline-block;
+  background-color: #1236a4;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.daftarbengkel-btn-card:hover {
+  background-color: #0e2b82;
 }

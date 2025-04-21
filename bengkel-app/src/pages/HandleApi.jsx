@@ -35,32 +35,28 @@ export const registerUser = async (formData) => {
 };
 
 // LOGIN
+// LOGIN
 export const loginUser = async (formData) => {
   try {
     const response = await axios.post(`${API_URL}/login`, formData);
-    console.log("Login Response: ", response.data);
     const token = response?.data?.access_token;
-    const user = response?.data?.user;
 
-    if (token && user) {
-      localStorage.setItem("user", JSON.stringify(user));
-
-      if (user.role !== "owner_bengkel") {
-        await Swal.fire({
-          icon: "error",
-          title: "Akses Ditolak",
-          text: "Akun Anda bukan pemilik bengkel.",
-        });
-        return null;
-      }
-
-      return token;
+    if (token) {
+      localStorage.setItem("token", token);
     }
+
+    await Swal.fire({
+      icon: "success",
+      title: "Welcome!",
+      text: "Login successful!",
+    });
+
+    return token;
   } catch (err) {
     Swal.fire({
       icon: "error",
-      title: "Login Gagal",
-      text: err.response?.data?.message || "Email atau password salah",
+      title: "Login Failed",
+      text: err.response?.data?.message || "Invalid credentials",
     });
 
     throw err.response?.data?.message || "Invalid credentials";

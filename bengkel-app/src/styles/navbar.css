@@ -126,6 +126,7 @@
 
 .sidebar.active {
   right: 0;
+  background-color: #1237a4f5;
 }
 
 .sidebar .close-sidebar {

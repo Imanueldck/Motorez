@@ -22,6 +22,7 @@ import DashboardPemilik from "./pemilik/DashboardPemilik";
 import Profile from "./components/Profile";
 import "leaflet/dist/leaflet.css";
 import BengkelDetail from "./pages/BengkelDetail";
+import BookingPage from "./pages/bookingpage";
 
 function AppContent() {
   const location = useLocation();
@@ -45,6 +46,7 @@ function AppContent() {
         <Route path="/login/pemilik" element={<LoginPemilik />} />
         <Route path="/dashboard-pemilik" element={<DashboardPemilik />} />
         <Route path="/bengkel/:id" element={<BengkelDetail />} />
+        <Route path="/booking/:id" element={<BookingPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </div>

@@ -1,11 +1,24 @@
 import { useState } from "react";
 import "../styles/dashboardPemilik.css";
-import ProfilePemilik from "./ProfilePemilik";
+import ProfilePemilik from "./profilePemilik";
 import ManageBengkel from "./ManageBengkel"; // Halaman untuk Tambah, Edit, Delete Bengkel
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "./HandleApi_owner"; // Impor logoutUser
 
 export default function DashboardPemilik() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activePage, setActivePage] = useState("dashboard");
+  const navigate = useNavigate(); // Hook untuk navigasi
+
+  // Fungsi untuk handle logout
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); // Panggil fungsi logout
+      navigate("/login/pemilik"); // Arahkan ke halaman login setelah logout
+    } catch (err) {
+      console.error("Logout error:", err); // Jika ada error, tampilkan di console
+    }
+  };
 
   return (
     <div className="dashboard-pemilik-container">
@@ -44,7 +57,11 @@ export default function DashboardPemilik() {
             {isSidebarOpen && <span>Profil</span>}
           </button>
 
-          <button className="nav-item-pemilik logout-pemilik">
+          {/* Tombol logout */}
+          <button
+            className="nav-item-pemilik logout-pemilik"
+            onClick={handleLogout}
+          >
             <i className="fas fa-sign-out-alt"></i>
             {isSidebarOpen && <span>Keluar</span>}
           </button>
