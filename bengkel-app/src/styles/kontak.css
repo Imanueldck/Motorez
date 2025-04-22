@@ -1,0 +1,114 @@
+/* Hero Section */
+.kontak-hero {
+    position: relative;
+    background-color: #2563eb; /* blue-600 */
+    color: white;
+    padding: 5rem 1.5rem;
+    text-align: center;
+  }
+  
+  .kontak-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .kontak-subtitle {
+    font-size: 1.125rem;
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+  
+  .kontak-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #1e40af; /* blue-700 */
+    opacity: 0.2;
+    z-index: -1;
+  }
+  
+  /* Info Kontak */
+  .kontak-info {
+    background-color: white;
+    padding: 3rem 1.5rem;
+  }
+  
+  .kontak-info-item svg {
+    color: #2563eb;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .kontak-info-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .kontak-info-text {
+    color: #4b5563; /* gray-600 */
+  }
+  
+  /* Form Section */
+  .kontak-form-wrapper {
+    background-color: #f9fafb; /* gray-50 */
+    padding: 4rem 1.5rem;
+  }
+  
+  .kontak-form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937; /* gray-800 */
+    margin-bottom: 1.5rem;
+  }
+  
+  .kontak-input {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.75rem;
+    outline: none;
+  }
+  
+  .kontak-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4);
+  }
+  
+  .kontak-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .kontak-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Social Media */
+  .kontak-sosmed {
+    background-color: white;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+  }
+  
+  .kontak-sosmed p {
+    color: #374151; /* gray-700 */
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .kontak-sosmed a {
+    font-size: 1.25rem;
+    color: #2563eb;
+    margin: 0 0.75rem;
+    transition: color 0.3s ease;
+  }
+  
+  .kontak-sosmed a:hover {
+    color: #1d4ed8;
+  }
+  

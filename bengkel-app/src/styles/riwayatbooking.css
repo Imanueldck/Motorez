@@ -1,0 +1,49 @@
+.riwayatbooking-container {
+    padding: 30px;
+    max-width: 1500px;
+    margin: auto;
+    background: #fff;
+    border-radius: 12px;
+  }
+  
+  .riwayatbooking-title {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .riwayatbooking-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .riwayatbooking-card-body {
+    padding: 20px;
+  }
+  
+  .riwayatbooking-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .riwayatbooking-table th,
+  .riwayatbooking-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .riwayatbooking-empty {
+    text-align: center;
+    font-style: italic;
+  }
+  .riwayatbooking-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .riwayatbooking-table {
+    min-width: 800px; /* Agar tabel tidak mengecil terlalu kecil di HP */
+  }
+  

@@ -1,0 +1,131 @@
+/* Container utama */
+.list-booking-pemilik {
+    margin: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  /* Judul */
+  .list-booking-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  /* Card wrapper */
+  .list-booking-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff;
+  }
+  
+  .list-booking-card-body {
+    padding: 10px;
+  }
+  
+  /* Tabel wrapper untuk scroll horizontal */
+  .list-booking-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .list-booking-table {
+    width: 100%;
+    min-width: 800px;
+    table-layout: auto;
+  }
+  
+  
+  /* Tabel */
+  .list-booking-table {
+    width: 100%;
+    min-width: 800px; /* Agar tidak sempit di HP */
+    table-layout: auto;
+    border-collapse: collapse;
+  }
+  
+  .list-booking-table th,
+  .list-booking-table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px;
+  }
+  
+  .list-booking-table th {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .list-booking-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Tombol */
+  .list-booking-table button {
+    min-width: 70px;
+    margin: 2px;
+  }
+  
+  /* Select input saat edit */
+  .list-booking-table select.form-control {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  /* Pesan kosong */
+  .list-booking-empty {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+  }
+  
+  /* Responsive tablet */
+  @media (max-width: 768px) {
+    .list-booking-title {
+      font-size: 20px;
+    }
+  
+    .list-booking-table th,
+    .list-booking-table td {
+      font-size: 12px;
+      padding: 5px;
+    }
+  
+    .list-booking-pemilik {
+      margin: 10px;
+      padding: 10px;
+    }
+  
+    .list-booking-card {
+      padding: 10px;
+    }
+  }
+  
+  /* Responsive handphone */
+  @media (max-width: 576px) {
+    .list-booking-title {
+      font-size: 18px;
+    }
+  
+    .list-booking-table th,
+    .list-booking-table td {
+      font-size: 10px;
+      padding: 4px;
+    }
+  
+    .list-booking-table button {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  }
+  

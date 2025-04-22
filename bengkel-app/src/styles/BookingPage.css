@@ -1,0 +1,78 @@
+/* Container utama */
+.bookingpage-container {
+    max-width: 720px;
+    margin: 60px auto;
+  }
+
+  /* Card styling */
+  .bookingpage-card {
+    background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    border: none;
+  }
+  .bookingpage-form {
+    gap: 1.5rem;
+    padding: 20px;
+  }
+  
+  .bookingpage-form .mb-3 {
+    margin-bottom: 1.5rem;
+  }
+  /* Judul form */
+  .bookingpage-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd20;
+    padding-bottom: 10px;
+  }
+  
+  /* Label input */
+  .bookingpage-label {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 6px;
+  }
+  .bookingpage-label:first-of-type {
+    margin-top: 1rem;
+    display: block;
+  }
+  
+  /* Input dan textarea */
+  .bookingpage-input,
+  .bookingpage-textarea {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: all 0.2s ease;
+    font-size: 15px;
+    background-color: #ffffff;
+    padding: 10px 12px;
+    width: 100%;
+  }
+  
+  .bookingpage-input:focus,
+  .bookingpage-textarea:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.2);
+    outline: none;
+  }
+  
+  /* Tombol kirim */
+  .bookingpage-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .bookingpage-button:hover {
+    background-color: #0b5ed7;
+  }
+  

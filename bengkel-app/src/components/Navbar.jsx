@@ -70,7 +70,7 @@ const Navbar = () => {
             <Link to="/kemitraan">Kemitraan Bengkel</Link>
           </li>
           <li>
-            <Link to="/contact">Contact</Link>
+            <Link to="/kontak">Contact</Link>
           </li>
         </ul>
 
@@ -121,17 +121,17 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/contact" onClick={toggleSidebar}>
+            <Link to="/kontak" onClick={toggleSidebar}>
               Contact
             </Link>
           </li>
           {isLoading ? null : user ? (
-            <>
-              <li className="sidebar-user">
-                <FaUserCircle className="sidebar-icon" />
-                <span>{user.name}</span>
-              </li>
-              <li>
+            <li>
+              <div className="navbar-user-area">
+                <div className="navbar-user">
+                  <FaUserCircle className="user-icon" />
+                  <span>{user.name}</span>
+                </div>
                 <button
                   className="logout-btn"
                   onClick={() => {
@@ -141,8 +141,8 @@ const Navbar = () => {
                 >
                   Logout
                 </button>
-              </li>
-            </>
+              </div>
+            </li>
           ) : (
             <li>
               <button className="auth-btn" onClick={toggleModal}>

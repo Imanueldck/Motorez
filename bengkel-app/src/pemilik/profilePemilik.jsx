@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getUserProfile, updateUserProfile } from "../pages/HandleApi";
-import "../styles/profilePemilik.css";
+import "./css/profilePemilik.css";
 
 export default function ProfilePemilik() {
   const [profile, setProfile] = useState({

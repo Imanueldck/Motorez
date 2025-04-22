@@ -115,12 +115,6 @@ export const getUserProfile = async () => {
   } catch (err) {
     localStorage.removeItem("token");
 
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: err.response?.data?.message || "Failed to fetch user data",
-    });
-
     throw err.response?.data?.message || "Failed to fetch user data";
   }
 };
@@ -164,4 +158,33 @@ export const getAllBengkel = async (lats, longs) => {
   } catch (err) {
     throw err.response?.data?.message || "Failed to fetch all bengkel data";
   }
+};
+export const getBooking = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.get(`${API_URL}/user/booking-servis`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Failed to fetch user data";
+  }
+};
+export const postBooking = async (bookingData) => {
+  console.log(bookingData);
+
+  const token = localStorage.getItem("token");
+  const response = await axios.post(`${API_URL}/booking-servis`, bookingData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+export const updateBooking = async (id, data) => {
+  const token = localStorage.getItem("token");
+  const response = await axios.put(`${API_URL}/booking-servis/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
 };

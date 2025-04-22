@@ -340,3 +340,75 @@
 .login-option:hover {
   opacity: 0.8;
 }
+
+
+.navbar-user-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px; /* Jarak antara nama user dan tombol logout */
+  margin-right: 20px;
+}
+.navbar-user-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 10px;
+}
+
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-weight: 600;
+}
+
+.user-icon {
+  font-size: 18px;
+  color: white;
+}
+
+.logout-btn { 
+  padding: 8px 14px;
+
+  margin-top: 10px;
+  background-color: #ff4757;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #e84118;
+  transform: scale(1.05);
+}
+.profile-menu {
+  display: flex;
+  align-items: center; /* Menjaga elemen sejajar secara vertikal */
+  justify-content: space-between; 
+  gap: 10px;
+
+}
+
+.profile-link {
+  display: flex;
+  align-items: center; /* Menjaga ikon dan nama pengguna sejajar secara vertikal */
+  margin-right: 10px; /* Memberikan jarak antara link dan tombol logout */
+}
+
+.profile-icon {
+  font-size: 24px; /* Ukuran ikon */
+  margin-right: 8px; /* Memberikan jarak antara ikon dan nama pengguna */
+}
+
+.profile-name {
+  font-size: 16px; /* Ukuran font nama pengguna */
+}

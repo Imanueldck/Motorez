@@ -12,6 +12,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import KemitraanBengkel from "./pages/kemitraanbengkel";
+import Kontak from "./pages/kontak";
 import CariBengkel from "./pages/caribengkel";
 import Footer from "./components/Footer";
 import RegisterPelanggan from "./pages/RegisterPelanggan";
@@ -23,6 +24,7 @@ import Profile from "./components/Profile";
 import "leaflet/dist/leaflet.css";
 import BengkelDetail from "./pages/BengkelDetail";
 import BookingPage from "./pages/bookingpage";
+import RiwayatBooking from "./components/RiwayatBooking";
 
 function AppContent() {
   const location = useLocation();
@@ -38,6 +40,7 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/caribengkel" element={<CariBengkel />} />
         <Route path="/kemitraan" element={<KemitraanBengkel />} />
+        <Route path="/kontak" element={<Kontak />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contact" element={<h1>Contact Page</h1>} />
         <Route path="/register/pelanggan" element={<RegisterPelanggan />} />
@@ -47,6 +50,7 @@ function AppContent() {
         <Route path="/dashboard-pemilik" element={<DashboardPemilik />} />
         <Route path="/bengkel/:id" element={<BengkelDetail />} />
         <Route path="/booking/:id" element={<BookingPage />} />
+        <Route path="/riwayat-booking" element={<RiwayatBooking />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </div>

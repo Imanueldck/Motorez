@@ -129,3 +129,25 @@ export const logoutUser = async () => {
     throw err.response?.data?.message || "Logout failed";
   }
 };
+export const getBooking = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.get(`${API_URL}/owner/booking-servis`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log(response.data);
+
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Failed to fetch user data";
+  }
+};
+export const updateBookingStatus = async (id, data) => {
+  const token = localStorage.getItem("token");
+  const response = await axios.put(`${API_URL}/booking-servis/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
