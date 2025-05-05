@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaBars,
@@ -12,10 +12,13 @@ import { logoutUser, getUserProfile } from "../pages/HandleApi";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+  const [isSidebarDropdownOpen, setIsSidebarDropdownOpen] = useState(false);
 
   const fetchUser = async () => {
     try {
@@ -30,6 +33,18 @@ const Navbar = () => {
 
   useEffect(() => {
     fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const toggleSidebar = () => {
@@ -55,7 +70,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <nav className="navbar">
+      <nav className="navbar-home">
         <Link to="/" className="navbar-logo">
           <FaWrench /> Motorez
         </Link>
@@ -78,14 +93,51 @@ const Navbar = () => {
           {isLoading ? (
             <span className="loading-text">Loading...</span>
           ) : user ? (
-            <div className="profile-menu">
-              <Link to="/profile" className="profile-link">
-                <FaUserCircle className="profile-icon" />
-                <span className="profile-name">{user.name}</span>
-              </Link>
-              <button className="logout-btn" onClick={handleLogout}>
-                Logout
+            <div className="dropdown-container" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="dropdown-button"
+              >
+                <FaUserCircle />
+                <span className="user-name">{user.name}</span>
+                <svg
+                  width="12"
+                  height="12"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M5.5 7l4.5 4.5L14.5 7" />
+                </svg>
               </button>
+
+              {isDropdownOpen && (
+                <div className="dropdown-menu-custom">
+                  <Link
+                    to="/profile"
+                    className="dropdown-item-custom"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="/riwayat-booking"
+                    className="dropdown-item-custom"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    Riwayat Booking
+                  </Link>
+                  <hr></hr>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsDropdownOpen(false);
+                    }}
+                    className="dropdown-item-custom logout"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <button className="auth-btn" onClick={toggleModal}>
@@ -127,20 +179,54 @@ const Navbar = () => {
           </li>
           {isLoading ? null : user ? (
             <li>
-              <div className="navbar-user-area">
-                <div className="navbar-user">
+              <div className="navbar-user-area-side">
+                <div
+                  className="navbar-user dropdown-toggle"
+                  onClick={() =>
+                    setIsSidebarDropdownOpen(!isSidebarDropdownOpen)
+                  }
+                >
                   <FaUserCircle className="user-icon" />
                   <span>{user.name}</span>
                 </div>
-                <button
-                  className="logout-btn"
-                  onClick={() => {
-                    toggleSidebar();
-                    handleLogout();
-                  }}
-                >
-                  Logout
-                </button>
+
+                {isSidebarDropdownOpen && (
+                  <ul className="dropdown-sidebar-menu">
+                    <li>
+                      <Link
+                        to="/profile"
+                        onClick={() => {
+                          setIsSidebarDropdownOpen(false);
+                          toggleSidebar();
+                        }}
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/riwayat-booking"
+                        onClick={() => {
+                          setIsSidebarDropdownOpen(false);
+                          toggleSidebar();
+                        }}
+                      >
+                        Riwayat Booking
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        className="logout-sidebar"
+                        onClick={() => {
+                          toggleSidebar();
+                          handleLogout();
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                )}
               </div>
             </li>
           ) : (

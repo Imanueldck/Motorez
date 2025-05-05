@@ -1,49 +1,135 @@
+/* Container Utama */
 .riwayatbooking-container {
-    padding: 30px;
-    max-width: 1500px;
-    margin: auto;
-    background: #fff;
-    border-radius: 12px;
-  }
-  
-  .riwayatbooking-title {
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .riwayatbooking-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .riwayatbooking-card-body {
-    padding: 20px;
-  }
-  
-  .riwayatbooking-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .riwayatbooking-table th,
-  .riwayatbooking-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .riwayatbooking-empty {
-    text-align: center;
-    font-style: italic;
-  }
-  .riwayatbooking-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-  }
-  
-  .riwayatbooking-table {
-    min-width: 800px; /* Agar tabel tidak mengecil terlalu kecil di HP */
-  }
-  
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Judul Halaman */
+.riwayatbooking-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+/* Card Booking */
+.booking-card {
+  background-color: #f9f9f9;
+  border-left: 5px solid #3498db;
+  transition: all 0.3s ease-in-out;
+}
+
+.booking-card:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.01);
+}
+
+/* Form Input */
+.booking-card .form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Tombol */
+.booking-card button {
+  transition: all 0.2s ease-in-out;
+}
+
+.booking-card button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+/* Jika Tidak Ada Booking */
+.riwayatbooking-empty {
+  font-style: italic;
+  color: #999;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Status Badge */
+.badge {
+  padding: 0.4rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+/* Modal Custom (opsional) */
+.modal-content {
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.modal-header {
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-footer {
+  border-top: 1px solid #ddd;
+}
+.modal-dialog {
+  margin: auto;
+}
+
+
+/* Label Form */
+.form-label-riwayat-title {
+  display: block;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #173a5e;
+}
+/* Label Form */
+.form-label-riwayat {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #173a5e;
+}
+
+/* Input Form */
+.form-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  width: 100%;
+  transition: border 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+/* Informasi Booking */
+.booking-info {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #2f3640;
+  background-color: #ebebeb;
+  padding: 0.6rem 1rem;
+  border-left: 4px solid #3498db;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.booking-info:hover {
+  background-color: #eaf2f8;
+}
+/* Status Booking */
+.booking-status {
+  font-size: 1rem;
+  margin: 20px 20px 20px 0;
+  color: #2f3640;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
