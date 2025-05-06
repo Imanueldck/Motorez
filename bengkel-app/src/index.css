@@ -17,3 +17,4 @@ html {
   display: flex;
   flex-direction: column;
 }
+@import "leaflet/dist/leaflet.css";

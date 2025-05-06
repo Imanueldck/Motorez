@@ -128,6 +128,7 @@ export const updateUserProfile = async (formData) => {
     const data = new FormData();
     data.append("name", formData.name);
     data.append("email", formData.email);
+    data.append("no_hp", formData.no_hp);
     if (formData.password) data.append("password", formData.password);
     if (formData.image) data.append("image", formData.image);
 

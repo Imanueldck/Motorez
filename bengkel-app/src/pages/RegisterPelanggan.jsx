@@ -8,6 +8,7 @@ const RegisterPelanggan = () => {
     name: "",
     email: "",
     password: "",
+    no_hp: "",
     role: "user", // Default role pelanggan
   });
 
@@ -22,8 +23,16 @@ const RegisterPelanggan = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validasi semua field harus terisi
+    const { name, email, password, no_hp } = formData;
+    if (!name || !email || !password || !no_hp) {
+      alert("Semua field harus diisi!");
+      return;
+    }
+
     try {
-      const response = await registerUser(formData); // Fungsi API
+      await registerUser(formData); // Fungsi API
       alert("Registrasi berhasil! Silakan login.");
       navigate("/login/pelanggan"); // Redirect ke halaman login pelanggan
     } catch (error) {
@@ -49,17 +58,54 @@ const RegisterPelanggan = () => {
           <form onSubmit={handleSubmit}>
             <div className="register-input-group">
               <label className="auth-label">Nama</label>
-              <input type="text" name="name" className="register-input" placeholder="Masukkan nama Anda" value={formData.name} onChange={handleChange} required />
+              <input
+                type="text"
+                name="name"
+                className="register-input"
+                placeholder="Masukkan nama Anda"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="register-input-group">
               <label className="auth-label">Email</label>
-              <input type="email" name="email" className="register-input" placeholder="Masukkan email Anda" value={formData.email} onChange={handleChange} required />
+              <input
+                type="email"
+                name="email"
+                className="register-input"
+                placeholder="Masukkan email Anda"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="register-input-group">
               <label className="auth-label">Password</label>
-              <input type="password" name="password" className="register-input" placeholder="Masukkan password" value={formData.password} onChange={handleChange} required />
+              <input
+                type="password"
+                name="password"
+                className="register-input"
+                placeholder="Masukkan password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="register-input-group">
+              <label className="auth-label">No. HP</label>
+              <input
+                type="text"
+                name="no_hp"
+                className="register-input"
+                placeholder="Masukkan nomor HP Anda"
+                value={formData.no_hp}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <button className="register-button" type="submit">

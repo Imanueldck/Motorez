@@ -61,22 +61,6 @@
   font-size: 0.9rem;
 }
 
-/* Modal Custom (opsional) */
-.modal-content {
-  border-radius: 12px;
-  padding: 1rem;
-}
-
-.modal-header {
-  border-bottom: 1px solid #ddd;
-}
-
-.modal-footer {
-  border-top: 1px solid #ddd;
-}
-.modal-dialog {
-  margin: auto;
-}
 
 
 /* Label Form */
@@ -132,4 +116,97 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+
+/* CSS untuk modal riwayat */
+.riwayat-modal-content {
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+}
+
+.riwayat-modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.riwayat-modal-header .modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #495057;
+}
+
+.riwayat-modal-header .btn-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+}
+
+.riwayat-modal-body {
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.riwayat-modal-body p,
+.riwayat-modal-body h5 {
+  margin-bottom: 1rem;
+}
+
+.riwayat-table th,
+.riwayat-table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.riwayat-table th {
+  background-color: #f1f1f1;
+  color: #495057;
+  font-weight: bold;
+}
+
+.riwayat-table-bordered {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+.riwayat-table-bordered td,
+.riwayat-table-bordered th {
+  border: 1px solid #dee2e6;
+}
+
+.riwayat-table td {
+  padding: 0.75rem;
+}
+
+.riwayat-table .total-row {
+  font-weight: bold;
+  background-color: #e9ecef;
+}
+
+.riwayat-booking-status span {
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.riwayat-modal-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.riwayat-modal-footer .btn-secondary {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 30px;
+  background-color: #6c757d;
+  color: white;
+}
+
+.riwayat-modal-footer .btn-secondary:hover {
+  background-color: #5a6268;
 }

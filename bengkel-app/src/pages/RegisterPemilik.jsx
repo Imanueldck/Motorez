@@ -8,7 +8,8 @@ const RegisterPemilik = () => {
     name: "",
     email: "",
     password: "",
-    role: "owner_bengkel",
+    no_hp: "",
+    role: "admin_bengkel",
   });
 
   const navigate = useNavigate();
@@ -49,17 +50,53 @@ const RegisterPemilik = () => {
           <form onSubmit={handleSubmit}>
             <div className="register-input-group">
               <label className="auth-label">Nama</label>
-              <input type="text" name="name" className="register-input" placeholder="Masukkan nama Anda" value={formData.name} onChange={handleChange} required />
+              <input
+                type="text"
+                name="name"
+                className="register-input"
+                placeholder="Masukkan nama Anda"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="register-input-group">
               <label className="auth-label">Email</label>
-              <input type="email" name="email" className="register-input" placeholder="Masukkan email Anda" value={formData.email} onChange={handleChange} required />
+              <input
+                type="email"
+                name="email"
+                className="register-input"
+                placeholder="Masukkan email Anda"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <div className="register-input-group">
               <label className="auth-label">Password</label>
-              <input type="password" name="password" className="register-input" placeholder="Masukkan password" value={formData.password} onChange={handleChange} required />
+              <input
+                type="password"
+                name="password"
+                className="register-input"
+                placeholder="Masukkan password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="register-input-group">
+              <label className="auth-label">No. HP</label>
+              <input
+                type="tel"
+                name="no_hp"
+                className="register-input"
+                placeholder="Masukkan nomor HP"
+                value={formData.no_hp}
+                onChange={handleChange}
+                required
+              />
             </div>
 
             <button className="register-button" type="submit">

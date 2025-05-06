@@ -10,9 +10,10 @@ export default function RiwayatBooking() {
   const [bookings, setBookings] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({
-    jenis_kendaraan: "",
+    nama_kendaraan: "",
     plat: "",
     keluhan: "",
+    tgl_ambil: "",
   });
   const [selectedBooking, setSelectedBooking] = useState(null);
   const detailModalRef = useRef(null);
@@ -62,9 +63,12 @@ export default function RiwayatBooking() {
   const startEdit = (booking) => {
     setEditingId(booking.id);
     setEditForm({
-      jenis_kendaraan: booking.jenis_kendaraan,
+      nama_kendaraan: booking.nama_kendaraan,
       plat: booking.plat,
       keluhan: booking.keluhan,
+      tgl_ambil: booking.tgl_ambil
+        ? new Date(booking.tgl_ambil).toISOString().slice(0, 16)
+        : "",
     });
   };
 
@@ -92,16 +96,19 @@ export default function RiwayatBooking() {
     modal.show();
   };
 
-  const statusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "badge bg-success";
-      case "proses":
-        return "badge bg-warning text-dark";
-      case "pending":
-        return "badge bg-danger";
+  // Get status label and color based on the status
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 0:
+        return "badge bg-warning text-dark"; // Pending
+      case 1:
+        return "badge bg-primary text-white"; // Proses
+      case 2:
+        return "badge bg-info text-white"; // Menunggu Diambil
+      case 3:
+        return "badge bg-success text-white"; // Selesai
       default:
-        return "badge bg-secondary";
+        return "badge bg-secondary text-white"; // Unknown
     }
   };
 
@@ -127,8 +134,8 @@ export default function RiwayatBooking() {
                         Jenis Kendaraan
                       </label>
                       <input
-                        name="jenis_kendaraan"
-                        value={editForm.jenis_kendaraan}
+                        name="nama_kendaraan"
+                        value={editForm.nama_kendaraan}
                         onChange={handleEditChange}
                         className="form-control form-input"
                       />
@@ -151,7 +158,20 @@ export default function RiwayatBooking() {
                         className="form-control form-input"
                       />
                     </div>
-
+                    {/* Input untuk tgl_ambil */}
+                    {/* ✅ Tanggal Diambil */}
+                    <div className="mb-3">
+                      <label className="form-label-riwayat">
+                        Tanggal Pengambilan
+                      </label>
+                      <input
+                        type="datetime-local"
+                        name="tgl_ambil"
+                        value={editForm.tgl_ambil}
+                        onChange={handleEditChange}
+                        className="form-control form-input"
+                      />
+                    </div>
                     <button
                       className="btn btn-success btn-sm me-2"
                       onClick={() => handleUpdateSubmit(booking.id)}
@@ -168,8 +188,7 @@ export default function RiwayatBooking() {
                 ) : (
                   <>
                     <p className="booking-info">
-                      <strong>Jenis Kendaraan:</strong>{" "}
-                      {booking.jenis_kendaraan}
+                      <strong>Jenis Kendaraan:</strong> {booking.nama_kendaraan}
                     </p>
                     <p className="booking-info">
                       <strong>Plat:</strong> {booking.plat}
@@ -178,9 +197,17 @@ export default function RiwayatBooking() {
                       <strong>Keluhan:</strong> {booking.keluhan}
                     </p>
                     <p className="booking-status">
-                      <strong>Status:</strong>{" "}
-                      <span className={statusColor(booking.status)}>
-                        {booking.status}
+                      <strong>Status:</strong>
+                      <span
+                        className={`ms-2 ${getStatusClass(booking.status)}`}
+                      >
+                        {booking.status === 0
+                          ? "Pending"
+                          : booking.status === 1
+                          ? "Proses"
+                          : booking.status === 2
+                          ? "Menunggu Diambil"
+                          : "Selesai"}
                       </span>
                     </p>
 
@@ -215,8 +242,11 @@ export default function RiwayatBooking() {
         aria-hidden="true"
       >
         <div className="modal-dialog modal-dialog-centered modal-lg">
-          <div className="modal-content">
-            <div className="modal-header">
+          <div className="modal-content" style={{ backgroundColor: "#f8f9fa" }}>
+            <div
+              className="modal-header"
+              style={{ backgroundColor: "#007bff", color: "white" }}
+            >
               <h5 className="modal-title" id="detailModalLabel">
                 Detail Booking
               </h5>
@@ -230,28 +260,104 @@ export default function RiwayatBooking() {
             {selectedBooking && (
               <div className="modal-body">
                 <p>
-                  <strong>Nama:</strong> {selectedBooking.nama}
+                  <strong style={{ color: "#007bff" }}>Nama:</strong>
+                  <span style={{ color: "#333" }}>{selectedBooking.nama}</span>
                 </p>
                 <p>
-                  <strong>Jenis Kendaraan:</strong>{" "}
-                  {selectedBooking.jenis_kendaraan}
-                </p>
-                <p>
-                  <strong>Plat:</strong> {selectedBooking.plat}
-                </p>
-                <p>
-                  <strong>Keluhan:</strong> {selectedBooking.keluhan}
-                </p>
-                <p>
-                  <strong>Status:</strong>{" "}
-                  <span className={statusColor(selectedBooking.status)}>
-                    {selectedBooking.status}
+                  <strong style={{ color: "#007bff" }}>Jenis Kendaraan:</strong>{" "}
+                  <span style={{ color: "#333" }}>
+                    {selectedBooking.nama_kendaraan}
                   </span>
                 </p>
                 <p>
-                  <strong>Deskripsi Service:</strong>{" "}
-                  {selectedBooking.deskripsi_service || "Belum ada deskripsi"}
+                  <strong style={{ color: "#007bff" }}>Plat:</strong>
+                  <span style={{ color: "#333" }}>{selectedBooking.plat}</span>
                 </p>
+                <p>
+                  <strong style={{ color: "#007bff" }}>Keluhan:</strong>
+                  <span style={{ color: "#333" }}>
+                    {selectedBooking.keluhan}
+                  </span>
+                </p>
+                {/* ✅ Tanggal Ambil */}
+                <p>
+                  <strong style={{ color: "#007bff" }}>Tanggal Diambil:</strong>
+                  <span style={{ color: "#333", marginLeft: "8px" }}>
+                    {selectedBooking.tgl_ambil
+                      ? new Date(selectedBooking.tgl_ambil).toLocaleString(
+                          "id-ID",
+                          {
+                            timeZone: "Asia/Jakarta",
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )
+                      : "-"}
+                  </span>
+                </p>
+                <p className="booking-status">
+                  <strong style={{ color: "#007bff" }}>Status:</strong>
+                  <span
+                    className={`ms-2 ${getStatusClass(selectedBooking.status)}`}
+                    style={{
+                      color:
+                        selectedBooking.status === 0
+                          ? "orange"
+                          : selectedBooking.status === 1
+                          ? "blue"
+                          : selectedBooking.status === 2
+                          ? "green"
+                          : "gray",
+                    }}
+                  >
+                    {selectedBooking.status === 0
+                      ? "Pending"
+                      : selectedBooking.status === 1
+                      ? "Proses"
+                      : selectedBooking.status === 2
+                      ? "Menunggu Diambil"
+                      : "Selesai"}
+                  </span>
+                </p>
+
+                <h5 style={{ color: "#007bff" }}>Detail Servis</h5>
+                {Array.isArray(selectedBooking.detail_servis) &&
+                selectedBooking.detail_servis.length > 0 ? (
+                  <table className="table table-bordered">
+                    <thead style={{ backgroundColor: "#f1f1f1" }}>
+                      <tr>
+                        <th>Sparepart</th>
+                        <th>Harga</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedBooking.detail_servis.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.sparepart}</td>
+                          <td>Rp {item.harga.toLocaleString()}</td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td>
+                          <strong>Total</strong>
+                        </td>
+                        <td>
+                          <strong>
+                            Rp{" "}
+                            {selectedBooking.detail_servis
+                              .reduce((sum, item) => sum + item.harga, 0)
+                              .toLocaleString()}
+                          </strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                ) : (
+                  <p style={{ color: "#36454F" }}>Belum ada detail servis</p>
+                )}
               </div>
             )}
             <div className="modal-footer">
@@ -259,6 +365,7 @@ export default function RiwayatBooking() {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                style={{ backgroundColor: "#6c757d", color: "white" }}
               >
                 Tutup
               </button>

@@ -6,6 +6,27 @@ import {
   updateBengkel,
 } from "./HandleApi_owner";
 import Swal from "sweetalert2";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+// Fix icon marker
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
+
+const LocationPicker = ({ setLatLong }) => {
+  useMapEvents({
+    click(e) {
+      setLatLong({ lat: e.latlng.lat, long: e.latlng.lng });
+    },
+  });
+  return null;
+};
 
 const ManageBengkel = () => {
   const [bengkel, setBengkel] = useState(null);
@@ -19,6 +40,7 @@ const ManageBengkel = () => {
     deskripsi: "",
     jam_buka: "",
     jam_selesai: "",
+    alamat: "",
     lat: "",
     long: "",
     image: null,
@@ -28,13 +50,30 @@ const ManageBengkel = () => {
     fetchBengkelData();
   }, []);
 
+  useEffect(() => {
+    if (!bengkel) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setFormData((prev) => ({
+            ...prev,
+            lat: position.coords.latitude,
+            long: position.coords.longitude,
+          }));
+        },
+        (err) => {
+          console.error("Gagal mendapatkan lokasi:", err);
+        }
+      );
+    }
+  }, [bengkel]);
+
   const fetchBengkelData = async () => {
     setLoading(true);
     try {
       const data = await getBengkelOwner();
       if (data) setBengkel(data);
     } catch (err) {
-      setError("Gagal memuat data bengkel.");
+      setError("Silahkan daftarkan bengkel anda");
     } finally {
       setLoading(false);
     }
@@ -48,7 +87,6 @@ const ManageBengkel = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setFormData((prev) => ({ ...prev, image: file }));
-
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => setImagePreview(reader.result);
@@ -104,6 +142,7 @@ const ManageBengkel = () => {
         deskripsi: bengkel.deskripsi,
         jam_buka: bengkel.jam_buka,
         jam_selesai: bengkel.jam_selesai,
+        alamat: bengkel.alamat || "",
         lat: bengkel.lat,
         long: bengkel.long,
         image: null,
@@ -147,6 +186,9 @@ const ManageBengkel = () => {
             <div className="card-body">
               <h4>{bengkel.nama}</h4>
               <p>{bengkel.deskripsi}</p>
+              <p>
+                <strong>Alamat:</strong> {bengkel.alamat}
+              </p>
               <p>
                 <strong>Jam:</strong> {bengkel.jam_buka} - {bengkel.jam_selesai}
               </p>
@@ -201,6 +243,18 @@ const ManageBengkel = () => {
                 </div>
 
                 <div className="form-group">
+                  <label>Alamat</label>
+                  <input
+                    type="text"
+                    name="alamat"
+                    className="form-control"
+                    value={formData.alamat}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
                   <label>Jam Buka</label>
                   <input
                     type="time"
@@ -225,10 +279,28 @@ const ManageBengkel = () => {
                 </div>
 
                 <div className="form-group">
+                  <label>Lokasi Bengkel (Klik di Peta)</label>
+                  <MapContainer
+                    center={[formData.lat || -6.2, formData.long || 106.8]}
+                    zoom={13}
+                    style={{ height: "300px", width: "100%" }}
+                  >
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <LocationPicker
+                      setLatLong={({ lat, long }) =>
+                        setFormData((prev) => ({ ...prev, lat, long }))
+                      }
+                    />
+                    {formData.lat && formData.long && (
+                      <Marker position={[formData.lat, formData.long]} />
+                    )}
+                  </MapContainer>
+                </div>
+
+                <div className="form-group">
                   <label>Latitude</label>
                   <input
                     type="number"
-                    step="any"
                     name="lat"
                     className="form-control"
                     value={formData.lat}
@@ -241,7 +313,6 @@ const ManageBengkel = () => {
                   <label>Longitude</label>
                   <input
                     type="number"
-                    step="any"
                     name="long"
                     className="form-control"
                     value={formData.long}

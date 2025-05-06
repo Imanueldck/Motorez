@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom"; // Import Link untuk navigasi
+import { NavLink } from "react-router-dom";
 import { getUserProfile, updateUserProfile } from "../pages/HandleApi";
 import "../styles/profile.css";
 
 const Profile = () => {
-  const [user, setUser] = useState({ name: "", email: "", image: "" });
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    image: "",
+    no_hp: "",
+  });
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null); // State untuk preview gambar
+  const [preview, setPreview] = useState(null);
 
   const Navbar = () => {
     return (
@@ -45,6 +50,7 @@ const Profile = () => {
       </nav>
     );
   };
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -68,9 +74,9 @@ const Profile = () => {
         name: user.name,
         email: user.email,
         password,
+        no_hp: user.no_hp,
         image: selectedFile,
       });
-
       setMessage("Profil berhasil diperbarui!");
       fetchUser();
     } catch (error) {
@@ -83,10 +89,9 @@ const Profile = () => {
     const file = e.target.files[0];
     setSelectedFile(file);
 
-    // Membaca file untuk preview
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPreview(reader.result); // Menyimpan hasil pembacaan untuk preview
+      setPreview(reader.result);
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -104,11 +109,7 @@ const Profile = () => {
 
         <div className="profile-picture">
           {preview ? (
-            <img
-              src={preview} // Menampilkan preview gambar yang dipilih
-              alt="Preview"
-              className="user-photo"
-            />
+            <img src={preview} alt="Preview" className="user-photo" />
           ) : user.image ? (
             <img
               src={
@@ -145,6 +146,16 @@ const Profile = () => {
               type="email"
               value={user.email || ""}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>No. HP :</label>
+            <input
+              type="text"
+              value={user.no_hp || ""}
+              onChange={(e) => setUser({ ...user, no_hp: e.target.value })}
               required
             />
           </div>

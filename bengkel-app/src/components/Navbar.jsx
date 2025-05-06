@@ -242,7 +242,7 @@ const Navbar = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="modal-overlay" onClick={toggleModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-contentt" onClick={(e) => e.stopPropagation()}>
             <button className="close-btn" onClick={toggleModal}>
               <FaTimes />
             </button>
