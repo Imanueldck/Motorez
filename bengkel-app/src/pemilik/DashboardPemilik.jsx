@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./css/dashboardPemilik.css";
 import ProfilePemilik from "./profilePemilik";
 import ManageBengkel from "./ManageBengkel";
+import ManageLayanan from "./ManageLayanan";
+import ManageSperpart from "./ManageSperpart";
 import ListBooking from "./ListBooking";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "./HandleApi_owner"; // Impor logoutUser
@@ -52,6 +54,20 @@ export default function DashboardPemilik() {
           </button>
           <button
             className="nav-item-pemilik"
+            onClick={() => setActivePage("manageLayanan")}
+          >
+            <i className="fas fa-cogs"></i>
+            {isSidebarOpen && <span>Kelola Layanan</span>}
+          </button>
+          <button
+            className="nav-item-pemilik"
+            onClick={() => setActivePage("manageSperpart")}
+          >
+            <i className="fas fa-wrench"></i>
+            {isSidebarOpen && <span>Kelola Sperpart</span>}
+          </button>
+          <button
+            className="nav-item-pemilik"
             onClick={() => setActivePage("listBooking")}
           >
             <i className="fas fa-list"></i>
@@ -93,6 +109,10 @@ export default function DashboardPemilik() {
           </>
         ) : activePage === "manageBengkel" ? (
           <ManageBengkel />
+        ) : activePage === "manageLayanan" ? (
+          <ManageLayanan />
+        ) : activePage === "manageSperpart" ? (
+          <ManageSperpart />
         ) : activePage === "listBooking" ? (
           <ListBooking />
         ) : (

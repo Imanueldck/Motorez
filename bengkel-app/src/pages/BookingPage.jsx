@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getBengkelById, postBooking, getBooking } from "./HandleApi";
+import {
+  getBengkelById,
+  postBooking,
+  getBooking,
+  getLayananByBengkelId,
+} from "./HandleApi";
 import Swal from "sweetalert2";
 import "../styles/BookingPage.css";
 
@@ -9,12 +14,16 @@ export default function BookingPage() {
   const navigate = useNavigate();
   const [bengkel, setBengkel] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [layananOptions, setLayananOptions] = useState([]);
+  const [jamOptions, setJamOptions] = useState([]);
 
   const [form, setForm] = useState({
     nama_kendaraan: "",
     plat: "",
     keluhan: "",
     tgl_booking: "",
+    jam_booking: "",
+    jenis_layanan: [],
   });
 
   useEffect(() => {
@@ -32,6 +41,16 @@ export default function BookingPage() {
       try {
         const data = await getBengkelById(id);
         setBengkel(data);
+
+        const layanan = await getLayananByBengkelId(id);
+        setLayananOptions(layanan);
+
+        // Generate jam booking dari jam buka dan tutup
+        if (data.jam_buka && data.jam_selesai) {
+          const generated = generateJamOptions(data.jam_buka, data.jam_selesai);
+          setJamOptions(generated);
+          console.log("Jam buka/tutup:", data.jam_buka, data.jam_selesai);
+        }
       } catch {
         Swal.fire("Error", "Gagal mengambil data bengkel", "error");
       } finally {
@@ -42,18 +61,28 @@ export default function BookingPage() {
     fetchBengkel();
   }, [id, navigate]);
 
+  const generateJamOptions = (jamBuka, jamTutup) => {
+    const options = [];
+    const [startHour] = jamBuka.split(":").map(Number);
+    const [endHour] = jamTutup.split(":").map(Number);
+
+    for (let hour = startHour; hour < endHour; hour++) {
+      const jam = hour.toString().padStart(2, "0") + ":00";
+      options.push(jam);
+    }
+    return options;
+  };
+
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
-    // Check plat match
     if (name === "plat") {
       try {
-        const response = await getBooking(); // get all bookings
+        const response = await getBooking();
         const matched = response.find(
           (item) => item.plat.toLowerCase() === value.toLowerCase()
         );
-
         if (matched) {
           setForm((prev) => ({
             ...prev,
@@ -66,8 +95,61 @@ export default function BookingPage() {
     }
   };
 
+  const handleLayananChange = (e) => {
+    const selected = layananOptions.find(
+      (l) => l.id === parseInt(e.target.value)
+    );
+    if (selected) {
+      const alreadySelected = form.jenis_layanan.find(
+        (l) => l.layanan === selected.nama
+      );
+      if (!alreadySelected) {
+        setForm((prev) => ({
+          ...prev,
+          jenis_layanan: [
+            ...prev.jenis_layanan,
+            {
+              layanan: selected.nama,
+              harga_layanan: selected.harga,
+            },
+          ],
+        }));
+      }
+    }
+  };
+  const handleRemoveLayanan = (index) => {
+    setForm((prev) => {
+      const newLayanan = prev.jenis_layanan.filter((_, i) => i !== index);
+      return { ...prev, jenis_layanan: newLayanan };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validasi jam jika tanggal booking adalah hari ini
+    const selectedDate = new Date(form.tgl_booking);
+    const today = new Date();
+
+    const isToday =
+      selectedDate.getFullYear() === today.getFullYear() &&
+      selectedDate.getMonth() === today.getMonth() &&
+      selectedDate.getDate() === today.getDate();
+
+    if (isToday) {
+      const [jam, menit] = form.jam_booking.split(":").map(Number);
+      const bookingDateTime = new Date();
+      bookingDateTime.setHours(jam, menit, 0, 0);
+
+      if (bookingDateTime <= today) {
+        Swal.fire({
+          icon: "warning",
+          title: "Jam tidak valid",
+          text: "Jam booking harus lebih dari waktu saat ini",
+        });
+        return;
+      }
+    }
 
     const bookingData = {
       bengkel_id: parseInt(id),
@@ -87,12 +169,11 @@ export default function BookingPage() {
       Swal.fire({
         icon: "error",
         title: "Gagal Booking",
-        text: error?.message || "Terjadi kesalahan saat melakukan booking",
+        text: error || "Terjadi kesalahan saat melakukan booking",
       });
     }
   };
 
-  // Format date for input type datetime-local
   const formatDateTime = (date) => {
     const pad = (n) => n.toString().padStart(2, "0");
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
@@ -100,7 +181,6 @@ export default function BookingPage() {
     )}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   };
 
-  // Set min = now + 2 hours, max = now + 3 days
   const now = new Date();
   const minDate = new Date(now.getTime() + 2 * 60 * 60 * 1000); // +2 jam
   const maxDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // +3 hari
@@ -157,18 +237,74 @@ export default function BookingPage() {
             </div>
 
             <div className="mb-3">
-              <label className="bookingpage-label">Tanggal & Jam Booking</label>
+              <label className="bookingpage-label">Tanggal Booking</label>
               <input
-                type="datetime-local"
+                type="date"
                 name="tgl_booking"
                 className="bookingpage-input"
                 value={form.tgl_booking}
                 onChange={handleChange}
-                min={formatDateTime(minDate)}
-                max={formatDateTime(maxDate)}
+                min={formatDateTime(minDate).split("T")[0]}
+                max={formatDateTime(maxDate).split("T")[0]}
                 required
               />
             </div>
+
+            <div className="mb-3">
+              <label className="bookingpage-label">Jam Booking</label>
+              <select
+                className="bookingpage-input"
+                name="jam_booking"
+                value={form.jam_booking}
+                onChange={handleChange}
+                required
+              >
+                <option value="">-- Pilih Jam --</option>
+                {jamOptions.map((jam) => (
+                  <option key={jam} value={jam}>
+                    {jam}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-3">
+              <label className="bookingpage-label">Pilih Layanan</label>
+              <select
+                className="bookingpage-input"
+                onChange={handleLayananChange}
+              >
+                <option value="">-- Pilih Layanan --</option>
+                {layananOptions.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.nama} - Rp{parseInt(item.harga).toLocaleString()}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {form.jenis_layanan.length > 0 && (
+              <div className="mb-3">
+                <label className="bookingpage-label">
+                  Layanan yang Dipilih:
+                </label>
+                <ul className="selected-services-list">
+                  {form.jenis_layanan.map((item, index) => (
+                    <li key={index}>
+                      {item.layanan} - Rp
+                      {parseInt(item.harga_layanan).toLocaleString()}
+                      <button
+                        type="button"
+                        className="remove-service-button"
+                        onClick={() => handleRemoveLayanan(index)}
+                      >
+                        Hapus
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <button type="submit" className="bookingpage-button">
               Kirim Booking

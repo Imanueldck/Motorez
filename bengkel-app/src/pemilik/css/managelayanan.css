@@ -1,0 +1,98 @@
+.layanan-container {
+  padding: 24px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+    color: #282c30;
+}
+
+.layanan-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.layanan-form-group {
+  margin-bottom: 12px;
+}
+
+.layanan-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.layanan-input,
+.layanan-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.layanan-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.layanan-button:hover {
+  background-color: #0056b3;
+}
+
+.layanan-subtitle {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.layanan-empty {
+  font-style: italic;
+  color: #6c757d;
+}
+
+.layanan-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.layanan-table th,
+.layanan-table td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+  text-align: left;
+}
+
+.layanan-table th {
+  background-color: #e9ecef;
+}
+
+.layanan-btn-edit,
+.layanan-btn-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.layanan-btn-edit {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.layanan-btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.layanan-btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.layanan-btn-delete:hover {
+  background-color: #c82333;
+}

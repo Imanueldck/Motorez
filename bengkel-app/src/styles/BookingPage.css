@@ -24,7 +24,7 @@
   .bookingpage-title {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #0d6efd;
+    color: #151618;
     border-bottom: 2px solid #0d6efd20;
     padding-bottom: 10px;
   }
@@ -75,4 +75,33 @@
   .bookingpage-button:hover {
     background-color: #0b5ed7;
   }
-  
+  .selected-services-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.selected-services-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #151618;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}
+
+.remove-service-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-service-button:hover {
+  background-color: #c82333;
+}

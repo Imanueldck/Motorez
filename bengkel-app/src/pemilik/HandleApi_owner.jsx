@@ -2,6 +2,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const API_URL = "http://localhost:8000/api";
+// === CRUD Layanan ===
+const SERVICE_URL = `${API_URL}/owner/service`;
 
 export const getBengkelOwner = async () => {
   try {
@@ -150,4 +152,139 @@ export const updateBookingStatus = async (id, data) => {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
+};
+
+// Ambil semua layanan
+export const getAllLayanan = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.get(SERVICE_URL, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Gagal mengambil data layanan";
+  }
+};
+
+// Tambah layanan baru
+export const createLayanan = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.post(SERVICE_URL, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Gagal menambahkan layanan";
+  }
+};
+
+// Update layanan
+export const updateLayanan = async (id, data) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.put(`${SERVICE_URL}/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Gagal mengubah layanan";
+  }
+};
+
+// Hapus layanan
+export const deleteLayanan = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.delete(`${SERVICE_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Gagal menghapus layanan";
+  }
+};
+
+// SPAREPART
+export const getAllSpareparts = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.get(`${API_URL}/owner/sparepart`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Failed to fetch sparepart data";
+  }
+};
+export const createSparepart = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.post(`${API_URL}/owner/sparepart`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    Swal.fire("Success", "Sparepart added successfully!", "success");
+    return response.data;
+  } catch (err) {
+    Swal.fire(
+      "Error",
+      err.response?.data?.message || "Failed to add sparepart",
+      "error"
+    );
+    throw err.response?.data?.message || "Failed to add sparepart";
+  }
+};
+export const updateSparepart = async (id, data) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.put(`${API_URL}/owner/sparepart/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    Swal.fire("Success", "Sparepart updated successfully!", "success");
+    return response.data;
+  } catch (err) {
+    Swal.fire(
+      "Error",
+      err.response?.data?.message || "Failed to update sparepart",
+      "error"
+    );
+    throw err.response?.data?.message || "Failed to update sparepart";
+  }
+};
+export const deleteSparepart = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User not authenticated");
+
+    const response = await axios.delete(`${API_URL}/owner/sparepart/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    Swal.fire("Success", "Sparepart deleted successfully!", "success");
+    return response.data;
+  } catch (err) {
+    Swal.fire(
+      "Error",
+      err.response?.data?.message || "Failed to delete sparepart",
+      "error"
+    );
+    throw err.response?.data?.message || "Failed to delete sparepart";
+  }
 };

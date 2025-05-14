@@ -5,11 +5,17 @@ const API_URL = "http://localhost:8000/api"; // Ganti dengan URL kamu jika pakai
 
 // deatil bengkel
 export const getBengkelById = async (id) => {
-  const response = await fetch(`http://localhost:8000/api/bengkel/${id}`);
-  if (!response.ok) {
-    throw new Error("Gagal mengambil data bengkel");
+  try {
+    const response = await axios.get(`${API_URL}/bengkel/${id}`, {
+      params: {
+        lat: 1,
+        long: 1,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response?.data?.message || "Failed to fetch all bengkel data";
   }
-  return response.json();
 };
 // REGISTER
 export const registerUser = async (formData) => {
@@ -34,7 +40,6 @@ export const registerUser = async (formData) => {
   }
 };
 
-// LOGIN
 // LOGIN
 export const loginUser = async (formData) => {
   try {
@@ -160,6 +165,7 @@ export const getAllBengkel = async (lats, longs) => {
     throw err.response?.data?.message || "Failed to fetch all bengkel data";
   }
 };
+// get get boking
 export const getBooking = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -173,19 +179,46 @@ export const getBooking = async () => {
     throw err.response?.data?.message || "Failed to fetch user data";
   }
 };
+// post boking
 export const postBooking = async (bookingData) => {
-  console.log(bookingData);
-
-  const token = localStorage.getItem("token");
-  const response = await axios.post(`${API_URL}/booking-servis`, bookingData, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      `${API_URL}/booking-servis`,
+      bookingData,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || "Failed to update booking status";
+  }
 };
+// update boking
 export const updateBooking = async (id, data) => {
-  const token = localStorage.getItem("token");
-  const response = await axios.put(`${API_URL}/booking-servis/${id}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/booking-servis/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(`Error updating booking status for ID ${id}:`, err);
+    throw err.response?.data?.message || "Failed to update booking status";
+  }
 };
+
+// Mendapatkan semua layanan dari bengkel tertentu
+export async function getLayananByBengkelId(id) {
+  try {
+    const response = await fetch(`${API_URL}/bengkel/service/${id}`);
+    if (!response.ok) {
+      throw new Error("Gagal mengambil data layanan");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("getLayananByBengkelId error:", error);
+    throw error;
+  }
+}

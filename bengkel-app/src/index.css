@@ -1,4 +1,5 @@
 /* index.css atau App.css */
+@import "leaflet/dist/leaflet.css";
 body,
 html {
   margin: 0;
@@ -17,4 +18,4 @@ html {
   display: flex;
   flex-direction: column;
 }
-@import "leaflet/dist/leaflet.css";
+

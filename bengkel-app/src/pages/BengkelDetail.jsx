@@ -25,6 +25,8 @@ export default function BengkelDetail() {
     const fetchBengkel = async () => {
       try {
         const data = await getBengkelById(id);
+        console.log(data);
+
         setBengkel(data);
       } catch (error) {
         console.error("Gagal memuat data bengkel:", error);
