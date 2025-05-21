@@ -1,183 +1,172 @@
-.bengkeldetail-container {
-  padding: 1.5rem;
-  max-width: 1700px;
-  margin: 0 auto;
+/* General Container */
+.detail-container {
+  max-width:90%;
+  margin: auto;
+  animation: detail-fade-in 0.6s ease-in;
 }
 
-.bengkeldetail-header {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
-.bengkel-image {
-  flex: 1 1 600px;
-  max-width: 500px;
+/* Card Layout */
+.detail-card {
   border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.bengkel-image img {
-  width: 100%;
-  height: 100%;
+.detail-image {
   object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 
-.bengkel-info {
-  flex: 2 1 400px;
+.detail-card-body {
+  padding: 1.5rem;
+  color:#444;
 }
 
-.bengkel-info h2 {
-  color: #1236a4;
-  margin-bottom: 1rem;
+/* Tombol Service */
+.detail-service-btn {
+  margin-top: 1rem;
+  animation: detail-fade-in 0.5s ease-in-out;
 }
 
-.bengkel-info p {
-  margin-bottom: 0.75rem;
+/* Tabs */
+.detail-tabs .nav-link {
+  font-weight: 600;
   color: #444;
+  transition: all 0.3s;
 }
-.bengkel-info .btn-info {
-  background-color: #17a2b8;
-  border: none;
+
+.detail-tabs .nav-link.active {
+  background-color: #0d6efd;
   color: #fff;
-  padding: 10px 16px;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Tab Content Area */
+.detail-tab-content {
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background-color: #fefefe;
+  padding: 1.2rem;
+  animation: detail-fade-up 0.4s ease-out;
+}
+
+/* Layanan List */
+.detail-layanan-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+}
+
+.detail-layanan-list li {
+  margin-bottom: 0.5rem;
   font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.bengkel-info .btn-info:hover {
-  background-color: #138496;
-}
-
-.bengkeldetail-map {
-  margin-top: 1.5rem;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.service-button {
-  margin-top: 1.5rem;
-  text-align: center;
-}
-
-/* Wrapper untuk daftar rekomendasi */
-/* Wrapper Rekomendasi */
-.rekomendasi-wrapper {
-  margin-top: 40px;
-  padding: 20px;
-  background-color: #fdfdfd;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-}
-
-/* Judul Rekomendasi */
-.rekomendasi-title {
-  font-size: 24px;
-  font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
-  text-align: center;
-  position: relative;
 }
 
-.rekomendasi-title::after {
-  content: "";
-  display: block;
-  width: 80px;
-  height: 3px;
-  background-color: #007bff;
-  margin: 10px auto 0;
-  border-radius: 2px;
-}
-.rekomendasi-list {
-  padding: 2rem;
-  max-width: 1700px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Membuat grid responsif */
-  gap: 40px;
-  margin-top: 20px;
-}
-
-/* Kartu Rekomendasi Bengkel */
-.rekomendasi-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Map Container */
+.detail-map-container {
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none; /* Menghilangkan underline pada link */
+   height: 300px !important;
 }
 
-/* Efek hover pada kartu */
-.rekomendasi-card:hover {
-  transform: translateY(-5px); /* Mengangkat kartu saat hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Menambah bayangan */
+/* Rekomendasi */
+.detail-rekomendasi-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-/* Gambar di dalam kartu */
-.rekomendasi-image {
+.detail-rekomendasi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.detail-rekomendasi-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 1px solid #eee;
 }
 
-/* Informasi bengkel dalam kartu */
-.rekomendasi-info {
+.detail-rekomendasi-body {
   padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.rekomendasi-info h4 {
-  font-size: 18px;
-  font-weight: bold;
+.detail-rekomendasi-body h5 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: #333;
-  margin-bottom: 10px;
-  transition: color 0.3s ease;
 }
 
-.rekomendasi-info p {
+.detail-rekomendasi-body p {
+  flex-grow: 1;
   color: #666;
-  font-size: 14px;
-  margin-bottom: 15px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
 }
 
-/* Hover effect untuk judul */
-.rekomendasi-info h4:hover {
-  color: #007bff;
-}
-
-/* Tombol untuk arahkan ke bengkel */
-.rekomendasi-info .btn-info {
-  display: inline-block;
+.detail-btn-info {
   background-color: #007bff;
   color: #fff;
-  padding: 8px 15px;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: bold;
   border: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
-.rekomendasi-info .btn-info:hover {
+.detail-btn-info:hover {
   background-color: #0056b3;
-  transform: scale(1.05); /* Efek memperbesar saat hover */
 }
 
-.rekomendasi-info .btn-info:active {
-  transform: scale(1); /* Kembalikan ukuran normal saat ditekan */
+
+/* Button Style */
+.detail-btn-info {
+  background-color: #0dcaf0;
+  color: #000;
+  font-weight: 500;
+  border: none;
+  transition: background-color 0.3s ease;
 }
 
-/* Responsivitas untuk layar kecil */
-@media (max-width: 600px) {
-  .rekomendasi-list {
-    grid-template-columns: 1fr; /* Hanya satu kolom di layar kecil */
+.detail-btn-info:hover {
+  background-color: #31d2f2;
+}
+
+/* Animations */
+@keyframes detail-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detail-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
