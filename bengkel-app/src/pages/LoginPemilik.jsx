@@ -15,8 +15,7 @@ const LoginPemilik = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await loginUser(formData); // gunakan loginUser dari HandleApi
-      localStorage.setItem("token", token);
+      await loginUser(formData); // gunakan loginUser dari HandleApi
       await Swal.fire("Berhasil", "Login berhasil!", "success");
       navigate("/dashboard-pemilik");
     } catch (error) {

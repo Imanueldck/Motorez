@@ -30,7 +30,13 @@ export default function ListBooking() {
   const openModal = (booking) => {
     setSelectedBooking(booking);
     setStatusUpdate(booking.status);
-    setDetailServis(booking.detail_servis || []);
+
+    // Ambil semua id sparepart dari detail_servis
+    const existingSparepartIds = booking.detail_servis
+      .filter((item) => item.type === "sparepart" && item.sparepart)
+      .map((item) => item.sparepart.id);
+
+    setDetailServis(existingSparepartIds);
   };
 
   const closeModal = () => {
@@ -39,28 +45,30 @@ export default function ListBooking() {
     setDetailServis([]);
   };
 
-  const handleServisChange = (index, value) => {
+  const handleServisChange = (index, sparepartId) => {
     const updated = [...detailServis];
-    const selectedSp = spareparts.find((sp) => sp.nama === value);
-    updated[index].sparepart = value;
-    updated[index].harga_sparepart = selectedSp ? selectedSp.harga : 0;
+    updated[index] = parseInt(sparepartId);
     setDetailServis(updated);
   };
 
   const addServisItem = () => {
-    setDetailServis([...detailServis, { sparepart: "", harga_sparepart: 0 }]);
+    setDetailServis([...detailServis, ""]);
+  };
+
+  const handleDeleteServisItem = (index) => {
+    const updated = [...detailServis];
+    updated.splice(index, 1);
+    setDetailServis(updated);
   };
 
   const handleSave = async () => {
     try {
-      if (parseInt(statusUpdate) < 2) {
-        await updateBookingStatus(selectedBooking.id, { status: statusUpdate });
-      } else {
-        await updateBookingStatus(selectedBooking.id, {
-          status: statusUpdate,
-          detail_servis: detailServis,
-        });
-      }
+      console.log(detailServis);
+
+      await updateBookingStatus(selectedBooking.id, {
+        status: statusUpdate,
+        sparepart_ids: detailServis,
+      });
 
       alert("Status dan detail servis diperbarui");
       const refreshed = await getBooking();
@@ -196,17 +204,46 @@ export default function ListBooking() {
                 </p>
                 <div>
                   <strong>Jenis Layanan:</strong>
-                  {selectedBooking.jenis_layanan?.length > 0 ? (
-                    <ul>
-                      {selectedBooking.jenis_layanan.map((layanan, i) => (
-                        <li key={i}>
-                          {layanan.layanan} - Rp{" "}
-                          {parseFloat(layanan.harga_layanan).toLocaleString()}
-                        </li>
-                      ))}
-                    </ul>
+                  {selectedBooking.detail_servis.length === 0 ? (
+                    <p className="text-muted">
+                      Tidak ada layanan atau sparepart.
+                    </p>
                   ) : (
-                    <p>-</p>
+                    <table className="table table-sm mt-2">
+                      <thead>
+                        <tr>
+                          <th>Tipe</th>
+                          <th>Nama</th>
+                          <th>Deskripsi</th>
+                          <th>Harga</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedBooking.detail_servis.map((item) => (
+                          <tr key={item.id}>
+                            <td>{item.type}</td>
+                            <td>
+                              {item.layanan?.nama ||
+                                item.sparepart?.nama ||
+                                "-"}
+                            </td>
+                            <td>
+                              {item.layanan?.deskripsi ||
+                                item.sparepart?.deskripsi ||
+                                "-"}
+                            </td>
+                            <td>
+                              Rp{" "}
+                              {item.layanan?.harga || item.sparepart?.harga
+                                ? parseInt(
+                                    item.layanan?.harga || item.sparepart?.harga
+                                  ).toLocaleString("id-ID")
+                                : "0"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   )}
                 </div>
 
@@ -224,10 +261,10 @@ export default function ListBooking() {
                   </select>
                 </div>
 
-                {parseInt(statusUpdate) >= 2 && (
+                {parseInt(statusUpdate) >= 1 && (
                   <>
-                    <h5 className="text-info">Detail Servis</h5>
-                    {detailServis.map((item, index) => (
+                    <h5 className="text-info">Tambah Sparepart</h5>
+                    {detailServis.map((spId, index) => (
                       <div className="row mb-2" key={index}>
                         <div className="col-md-8">
                           <label className="form-label text-warning">
@@ -235,19 +272,27 @@ export default function ListBooking() {
                           </label>
                           <select
                             className="form-control"
-                            value={item.sparepart}
+                            value={spId}
                             onChange={(e) =>
                               handleServisChange(index, e.target.value)
                             }
                           >
                             <option value="">-- Pilih Sparepart --</option>
                             {spareparts.map((sp) => (
-                              <option key={sp.id} value={sp.nama}>
+                              <option key={sp.id} value={sp.id}>
                                 {sp.nama} - Rp{" "}
-                                {parseFloat(sp.harga).toLocaleString()}
+                                {parseFloat(sp.harga).toLocaleString("id-ID")}
                               </option>
                             ))}
                           </select>
+                        </div>
+                        <div className="col-md-4 d-flex align-items-end">
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDeleteServisItem(index)}
+                          >
+                            Hapus
+                          </button>
                         </div>
                       </div>
                     ))}

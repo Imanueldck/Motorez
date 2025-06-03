@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { getBooking, updateBooking } from "../pages/HandleApi";
+import {
+  getBooking,
+  updateBooking,
+  getDetailBooking,
+  inputUlasan,
+} from "../pages/HandleApi";
 import { NavLink } from "react-router-dom";
 import { Modal } from "bootstrap";
 import "../styles/riwayatbooking.css";
@@ -17,7 +22,14 @@ export default function RiwayatBooking() {
     jam_ambil: "",
   });
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [reviewForm, setReviewForm] = useState({
+    komentar: "",
+    rating: 5,
+  });
+
   const detailModalRef = useRef(null);
+  const reviewModalRef = useRef(null);
 
   const Navbar = () => (
     <nav className="profile-navbar">
@@ -68,7 +80,7 @@ export default function RiwayatBooking() {
       nama_kendaraan: booking.nama_kendaraan,
       plat: booking.plat,
       keluhan: booking.keluhan,
-      tgl_ambil: tglAmbil ? tglAmbil.toISOString().slice(0, 10) : "", // Tanggal
+      tgl_ambil: tglAmbil ? tglAmbil.toISOString().slice(0, 10) : "",
       jam_ambil: booking.jam_ambil || "",
     });
   };
@@ -83,7 +95,6 @@ export default function RiwayatBooking() {
       await updateBooking(id, { ...editForm, tgl_ambil: fullTglAmbil });
       alert("Booking berhasil diperbarui!");
       setEditingId(null);
-
       const refreshed = await getBooking();
       setBookings(refreshed);
     } catch (err) {
@@ -92,10 +103,42 @@ export default function RiwayatBooking() {
     }
   };
 
-  const openDetailModal = (booking) => {
-    setSelectedBooking(booking);
-    const modal = new Modal(detailModalRef.current);
+  const openDetailModal = async (booking) => {
+    try {
+      const detailData = await getDetailBooking(booking.id);
+      setSelectedBooking(detailData);
+      const modal = new Modal(detailModalRef.current);
+      modal.show();
+    } catch (error) {
+      console.error("Gagal mengambil detail booking:", error);
+      alert("Gagal mengambil detail booking.");
+    }
+  };
+  const openReviewModal = (booking) => {
+    setSelectedReview(booking);
+    setReviewForm({ komentar: "", rating: 5 });
+    const modal = new Modal(reviewModalRef.current);
     modal.show();
+  };
+
+  const handleReviewChange = (e) => {
+    setReviewForm({ ...reviewForm, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitReview = async () => {
+    try {
+      await inputUlasan({
+        booking_servis_id: selectedReview.id, // ✅ sesuaikan dengan field yang diminta backend
+        bengkel_id: selectedReview.bengkel_id,
+        review: reviewForm.komentar,
+        stars: parseInt(reviewForm.rating), // ✅ jika backend pakai 'stars' bukan 'rating'
+      });
+
+      const modal = Modal.getInstance(reviewModalRef.current);
+      modal.hide();
+    } catch (err) {
+      console.error("Gagal mengirim ulasan:", err);
+    }
   };
 
   const getStatusClass = (status) => {
@@ -117,6 +160,20 @@ export default function RiwayatBooking() {
     `Rp ${parseFloat(angka).toLocaleString("id-ID", {
       minimumFractionDigits: 0,
     })}`;
+
+  // Fungsi total harga + format rupiah
+  const getTotalHargaRupiah = (booking) => {
+    if (!booking) return "Rp 0";
+
+    const totalHarga =
+      booking?.detail_servis?.reduce((total, item) => {
+        if (item.layanan) return total + parseFloat(item.layanan.harga);
+        if (item.sparepart) return total + parseFloat(item.sparepart.harga);
+        return total;
+      }, 0) || 0;
+
+    return formatRupiah(totalHarga);
+  };
 
   return (
     <div>
@@ -212,6 +269,10 @@ export default function RiwayatBooking() {
                     <p className="booking-info">
                       <strong>Keluhan:</strong> {booking.keluhan}
                     </p>
+                    <p className="booking-info">
+                      <strong>Total Harga:</strong>{" "}
+                      {getTotalHargaRupiah(booking)}
+                    </p>
                     <p className="booking-status">
                       <strong>Status:</strong>
                       <span
@@ -226,7 +287,6 @@ export default function RiwayatBooking() {
                           : "Selesai"}
                       </span>
                     </p>
-
                     <button
                       className="btn btn-primary btn-sm me-2"
                       onClick={() => startEdit(booking)}
@@ -239,6 +299,14 @@ export default function RiwayatBooking() {
                     >
                       Detail
                     </button>
+                    {booking.status === 3 && (
+                      <button
+                        className="btn btn-success btn-sm"
+                        onClick={() => openReviewModal(booking)}
+                      >
+                        Beri Ulasan
+                      </button>
+                    )}
                   </>
                 )}
               </div>
@@ -308,12 +376,9 @@ export default function RiwayatBooking() {
                 <p>
                   <strong style={{ color: "#007bff" }}>Jam Diambil:</strong>
                   <span style={{ color: "#333", marginLeft: "8px" }}>
-                    {selectedBooking.jam_ambil
-                      ? selectedBooking.jam_ambil
-                      : "-"}
+                    {selectedBooking.jam_ambil || "-"}
                   </span>
                 </p>
-
                 <p className="booking-status">
                   <strong style={{ color: "#007bff" }}>Status:</strong>
                   <span
@@ -329,106 +394,92 @@ export default function RiwayatBooking() {
                   </span>
                 </p>
 
-                {selectedBooking && selectedBooking.detail_servis && (
+                {/* Detail Servis */}
+                {selectedBooking.detail_servis &&
+                selectedBooking.detail_servis.length > 0 ? (
                   <>
                     <h5 style={{ color: "#007bff" }}>Detail Servis</h5>
-                    {Array.isArray(selectedBooking.detail_servis) &&
-                    selectedBooking.detail_servis.length > 0 ? (
-                      <table className="table table-bordered">
-                        <thead style={{ backgroundColor: "#f1f1f1" }}>
+                    <table className="table table-bordered">
+                      <thead style={{ backgroundColor: "#f1f1f1" }}>
+                        <tr>
+                          <th>Sparepart</th>
+                          <th>Harga</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedBooking.detail_servis.length === 0 ? (
                           <tr>
-                            <th>Sparepart</th>
-                            <th>Harga</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {selectedBooking.detail_servis.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item.sparepart}</td>
-                              <td>{formatRupiah(item.harga_sparepart)}</td>
-                            </tr>
-                          ))}
-                          <tr>
-                            <td>
-                              <strong>Total</strong>
-                            </td>
-                            <td>
-                              <strong>
-                                {formatRupiah(
-                                  selectedBooking.detail_servis.reduce(
-                                    (sum, item) =>
-                                      sum + parseFloat(item.harga_sparepart),
-                                    0
-                                  )
-                                )}
-                              </strong>
+                            <td colSpan="4" className="text-center">
+                              Tidak ada layanan atau sparepart.
                             </td>
                           </tr>
-                        </tbody>
-                      </table>
-                    ) : (
-                      <p>Tidak ada detail servis yang tersedia.</p>
-                    )}
-
-                    {/* Tabel Jenis Layanan dan Harga */}
-                    {selectedBooking.jenis_layanan &&
-                    Array.isArray(selectedBooking.jenis_layanan) ? (
-                      <>
-                        <h5 style={{ color: "#007bff" }}>Jenis Layanan</h5>
-                        <table className="table table-bordered">
-                          <thead style={{ backgroundColor: "#f1f1f1" }}>
-                            <tr>
-                              <th>Jenis Layanan</th>
-                              <th>Harga</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {selectedBooking.jenis_layanan.map(
-                              (item, index) => (
-                                <tr key={index}>
-                                  <td>{item.layanan}</td>
-                                  <td>{formatRupiah(item.harga_layanan)}</td>
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
-                        {/* Total Keseluruhan */}
-                        <table className="table table-bordered text-center align-middle">
-                          <tbody>
-                            <tr style={{ backgroundColor: "#e9ecef" }}>
+                        ) : (
+                          selectedBooking.detail_servis.map((item) => (
+                            <tr key={item.id}>
+                              <td>{item.type}</td>
                               <td>
-                                <strong>Total Keseluruhan</strong>
+                                {item.layanan?.nama ||
+                                  item.sparepart?.nama ||
+                                  "-"}
                               </td>
                               <td>
-                                <strong>
-                                  {formatRupiah(
-                                    (
-                                      selectedBooking.detail_servis || []
-                                    ).reduce(
-                                      (sum, item) =>
-                                        sum + parseFloat(item.harga_sparepart),
-                                      0
-                                    ) +
-                                      (
-                                        selectedBooking.jenis_layanan || []
-                                      ).reduce(
-                                        (sum, item) =>
-                                          sum + parseFloat(item.harga_layanan),
-                                        0
-                                      )
-                                  )}
-                                </strong>
+                                {item.layanan?.deskripsi ||
+                                  item.sparepart?.deskripsi ||
+                                  "-"}
+                              </td>
+                              <td>
+                                Rp{" "}
+                                {item.layanan?.harga || item.sparepart?.harga
+                                  ? parseInt(
+                                      item.layanan?.harga ||
+                                        item.sparepart?.harga
+                                    ).toLocaleString("id-ID")
+                                  : "0"}
                               </td>
                             </tr>
-                          </tbody>
-                        </table>
-                      </>
-                    ) : (
-                      <p>Tidak ada jenis layanan yang tersedia.</p>
-                    )}
+                          ))
+                        )}
+                      </tbody>
+                    </table>
                   </>
+                ) : (
+                  <p>Tidak ada detail servis.</p>
                 )}
+
+                {/* Detail Jenis Layanan */}
+                {selectedBooking.jenis_layanan &&
+                selectedBooking.jenis_layanan.length > 0 ? (
+                  <>
+                    <h5 style={{ color: "#007bff" }}>Jenis Layanan</h5>
+                    <table className="table table-bordered">
+                      <thead style={{ backgroundColor: "#f1f1f1" }}>
+                        <tr>
+                          <th>Layanan</th>
+                          <th>Harga</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedBooking.jenis_layanan.map((item, idx) => (
+                          <tr key={idx}>
+                            <td>{item.layanan?.nama || "-"}</td>
+                            <td>
+                              {formatRupiah(
+                                item.harga_layanan || item.layanan?.harga || 0
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </>
+                ) : (
+                  <p>Tidak ada jenis layanan.</p>
+                )}
+
+                <p>
+                  <strong style={{ color: "#007bff" }}>Total Harga:</strong>{" "}
+                  {getTotalHargaRupiah(selectedBooking)}
+                </p>
               </div>
             )}
             <div className="modal-footer">
@@ -436,9 +487,85 @@ export default function RiwayatBooking() {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
-                style={{ backgroundColor: "#6c757d", color: "white" }}
               >
                 Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* MODAL REVIEW */}
+      <div
+        className="modal fade"
+        ref={reviewModalRef}
+        tabIndex="-1"
+        aria-labelledby="reviewModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header bg-success text-white">
+              <h5 className="modal-title" id="reviewModalLabel">
+                Beri Ulasan
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              {/* Bintang rating */}
+              <div className="mb-3">
+                <label className="form-label">Rating</label>
+                <div>
+                  {[1, 2, 3, 4, 5].map((num) => (
+                    <span
+                      key={num}
+                      onClick={() =>
+                        setReviewForm((prev) => ({ ...prev, rating: num }))
+                      }
+                      style={{
+                        cursor: "pointer",
+                        fontSize: "1.8rem",
+                        color: reviewForm.rating >= num ? "#ffc107" : "#e4e5e9",
+                      }}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Komentar */}
+              <div className="mb-3">
+                <label htmlFor="komentar" className="form-label">
+                  Komentar
+                </label>
+                <textarea
+                  name="komentar"
+                  value={reviewForm.komentar}
+                  onChange={handleReviewChange}
+                  className="form-control"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={handleSubmitReview}
+              >
+                Kirim Ulasan
               </button>
             </div>
           </div>

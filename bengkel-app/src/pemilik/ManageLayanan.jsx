@@ -26,7 +26,7 @@ export default function ManageLayanan() {
       const data = await getAllLayanan();
       setLayananList(data);
     } catch (error) {
-      Swal.fire("Error", error, "error");
+      Swal.fire("Error", error?.message || "Terjadi kesalahan", "error");
     }
   };
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  getBengkelById,
+  getDetailBengkel,
   postBooking,
   getBooking,
-  getLayananByBengkelId,
+  getLayananBengkel,
 } from "./HandleApi";
 import Swal from "sweetalert2";
 import "../styles/BookingPage.css";
@@ -23,7 +23,7 @@ export default function BookingPage() {
     keluhan: "",
     tgl_booking: "",
     jam_booking: "",
-    jenis_layanan: [],
+    jenis_layanan: "", // single select, jadi string id layanan
   });
 
   useEffect(() => {
@@ -39,17 +39,21 @@ export default function BookingPage() {
 
     const fetchBengkel = async () => {
       try {
-        const data = await getBengkelById(id);
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const lat = position.coords.latitude;
+        const long = position.coords.longitude;
+        const data = await getDetailBengkel(id, lat, long);
         setBengkel(data);
 
-        const layanan = await getLayananByBengkelId(id);
+        const layanan = await getLayananBengkel(id);
         setLayananOptions(layanan);
 
-        // Generate jam booking dari jam buka dan tutup
         if (data.jam_buka && data.jam_selesai) {
           const generated = generateJamOptions(data.jam_buka, data.jam_selesai);
           setJamOptions(generated);
-          console.log("Jam buka/tutup:", data.jam_buka, data.jam_selesai);
         }
       } catch {
         Swal.fire("Error", "Gagal mengambil data bengkel", "error");
@@ -73,61 +77,39 @@ export default function BookingPage() {
     return options;
   };
 
-  const handleChange = async (e) => {
+  const checkPlat = async (platValue) => {
+    try {
+      const response = await getBooking();
+      const matched = response.find(
+        (item) => item.plat.toLowerCase() === platValue.toLowerCase()
+      );
+      if (matched) {
+        setForm((prev) => ({
+          ...prev,
+          nama_kendaraan: matched.nama_kendaraan || "",
+        }));
+      }
+    } catch (error) {
+      console.error("Error checking plat:", error);
+    }
+  };
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
     if (name === "plat") {
-      try {
-        const response = await getBooking();
-        const matched = response.find(
-          (item) => item.plat.toLowerCase() === value.toLowerCase()
-        );
-        if (matched) {
-          setForm((prev) => ({
-            ...prev,
-            nama_kendaraan: matched.nama_kendaraan || "",
-          }));
-        }
-      } catch (error) {
-        console.error("Error checking plat:", error);
-      }
+      checkPlat(value);
     }
   };
 
   const handleLayananChange = (e) => {
-    const selected = layananOptions.find(
-      (l) => l.id === parseInt(e.target.value)
-    );
-    if (selected) {
-      const alreadySelected = form.jenis_layanan.find(
-        (l) => l.layanan === selected.nama
-      );
-      if (!alreadySelected) {
-        setForm((prev) => ({
-          ...prev,
-          jenis_layanan: [
-            ...prev.jenis_layanan,
-            {
-              layanan: selected.nama,
-              harga_layanan: selected.harga,
-            },
-          ],
-        }));
-      }
-    }
-  };
-  const handleRemoveLayanan = (index) => {
-    setForm((prev) => {
-      const newLayanan = prev.jenis_layanan.filter((_, i) => i !== index);
-      return { ...prev, jenis_layanan: newLayanan };
-    });
+    setForm((prev) => ({ ...prev, jenis_layanan: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validasi jam jika tanggal booking adalah hari ini
     const selectedDate = new Date(form.tgl_booking);
     const today = new Date();
 
@@ -151,10 +133,24 @@ export default function BookingPage() {
       }
     }
 
+    if (!form.jenis_layanan) {
+      Swal.fire({
+        icon: "warning",
+        title: "Layanan belum dipilih",
+        text: "Silakan pilih layanan terlebih dahulu.",
+      });
+      return;
+    }
+
     const bookingData = {
       bengkel_id: parseInt(id),
       status: 0,
-      ...form,
+      nama_kendaraan: form.nama_kendaraan,
+      plat: form.plat,
+      keluhan: form.keluhan,
+      tgl_booking: form.tgl_booking,
+      jam_booking: form.jam_booking,
+      layanan_id: parseInt(form.jenis_layanan),
     };
 
     try {
@@ -169,7 +165,9 @@ export default function BookingPage() {
       Swal.fire({
         icon: "error",
         title: "Gagal Booking",
-        text: error || "Terjadi kesalahan saat melakukan booking",
+        text:
+          error?.response?.data?.message ||
+          "Terjadi kesalahan saat melakukan booking",
       });
     }
   };
@@ -272,39 +270,20 @@ export default function BookingPage() {
               <label className="bookingpage-label">Pilih Layanan</label>
               <select
                 className="bookingpage-input"
+                name="jenis_layanan"
+                value={form.jenis_layanan}
                 onChange={handleLayananChange}
+                required
               >
                 <option value="">-- Pilih Layanan --</option>
                 {layananOptions.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.nama} - Rp{parseInt(item.harga).toLocaleString()}
+                    {item.nama} - Rp
+                    {parseInt(item.harga).toLocaleString("id-ID")}
                   </option>
                 ))}
               </select>
             </div>
-
-            {form.jenis_layanan.length > 0 && (
-              <div className="mb-3">
-                <label className="bookingpage-label">
-                  Layanan yang Dipilih:
-                </label>
-                <ul className="selected-services-list">
-                  {form.jenis_layanan.map((item, index) => (
-                    <li key={index}>
-                      {item.layanan} - Rp
-                      {parseInt(item.harga_layanan).toLocaleString()}
-                      <button
-                        type="button"
-                        className="remove-service-button"
-                        onClick={() => handleRemoveLayanan(index)}
-                      >
-                        Hapus
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             <button type="submit" className="bookingpage-button">
               Kirim Booking

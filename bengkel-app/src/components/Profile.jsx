@@ -112,11 +112,7 @@ const Profile = () => {
             <img src={preview} alt="Preview" className="user-photo" />
           ) : user.image ? (
             <img
-              src={
-                user.image.includes("http")
-                  ? user.image
-                  : `http://localhost:8000/storage/${user.image}`
-              }
+              src={user.image.includes("http") ? user.image : `${user.image}`}
               alt="Profile"
               className="user-photo"
               onError={(e) => {

@@ -16,8 +16,8 @@ const LoginPelanggan = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = await loginUser(formData);
-      localStorage.setItem("token", token);
+      await loginUser(formData);
+      // localStorage.setItem("token", token);
       await Swal.fire("Berhasil", "Login berhasil!", "success");
       navigate("/");
     } catch (error) {

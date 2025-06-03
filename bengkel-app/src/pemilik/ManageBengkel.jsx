@@ -4,6 +4,9 @@ import {
   insertBengkel,
   deleteBengkel,
   updateBengkel,
+  getAllLayanan,
+  getAllSpareparts,
+  updateBengkelStatus,
 } from "./HandleApi_owner";
 import Swal from "sweetalert2";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
@@ -30,6 +33,8 @@ const LocationPicker = ({ setLatLong }) => {
 
 const ManageBengkel = () => {
   const [bengkel, setBengkel] = useState(null);
+  const [layanan, setLayanan] = useState([]);
+  const [sparepart, setSparepart] = useState([]);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -72,6 +77,10 @@ const ManageBengkel = () => {
     try {
       const data = await getBengkelOwner();
       if (data) setBengkel(data);
+      const layananData = await getAllLayanan();
+      const sparepartData = await getAllSpareparts();
+      setLayanan(layananData);
+      setSparepart(sparepartData);
     } catch (err) {
       setError("Silahkan daftarkan bengkel anda");
     } finally {
@@ -91,6 +100,27 @@ const ManageBengkel = () => {
       const reader = new FileReader();
       reader.onloadend = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
+    }
+  };
+  const handleToggleStatus = async () => {
+    if (layanan.length === 0 || sparepart.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Tidak bisa update status",
+        text: "Layanan dan sparepart harus tersedia sebelum mengubah status bengkel.",
+      });
+      return; // Stop execution if condition not met
+    }
+    try {
+      const updatedStatus = !bengkel.status;
+
+      await updateBengkelStatus(bengkel.id, Boolean(updatedStatus));
+      setBengkel((prev) => ({
+        ...prev,
+        status: updatedStatus,
+      }));
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -180,6 +210,19 @@ const ManageBengkel = () => {
                   onClick={handleDelete}
                 >
                   Hapus Bengkel
+                </button>
+                <button
+                  className={`btn ml-auto ${
+                    bengkel.status ? "btn-success" : "btn-danger"
+                  }`}
+                  onClick={() => handleToggleStatus()}
+                >
+                  <i
+                    className={`fas ${
+                      bengkel.status ? "fa-toggle-on" : "fa-toggle-off"
+                    } mr-1`}
+                  ></i>
+                  {bengkel.status ? "Buka" : "Tutup"}
                 </button>
               </div>
             </div>

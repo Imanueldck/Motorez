@@ -1,3 +1,4 @@
+// ...semua import tetap
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
@@ -8,15 +9,14 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../styles/detailbengkel.css";
 import customMarker from "../assets/location.png";
 import {
-  getBengkelById,
+  getDetailBengkel,
   getAllBengkel,
-  getLayananByBengkelId,
+  getLayananBengkel,
 } from "./HandleApi";
 
-// Komponen untuk memaksa map merespon perubahan ukuran
+// MapResizer
 function MapResizer({ trigger }) {
   const map = useMap();
-
   useEffect(() => {
     if (trigger) {
       setTimeout(() => {
@@ -24,11 +24,10 @@ function MapResizer({ trigger }) {
       }, 100);
     }
   }, [trigger, map]);
-
   return null;
 }
 
-// Custom icon
+// Custom Marker
 const customIcon = new L.Icon({
   iconUrl: customMarker,
   iconSize: [32, 32],
@@ -48,7 +47,12 @@ export default function BengkelDetail() {
   useEffect(() => {
     const fetchBengkel = async () => {
       try {
-        const data = await getBengkelById(id);
+        const position = await new Promise((resolve, reject) =>
+          navigator.geolocation.getCurrentPosition(resolve, reject)
+        );
+        const lat = position.coords.latitude;
+        const long = position.coords.longitude;
+        const data = await getDetailBengkel(id, lat, long);
         setBengkel(data);
       } catch (error) {
         console.error("Gagal memuat data bengkel:", error);
@@ -76,13 +80,12 @@ export default function BengkelDetail() {
   useEffect(() => {
     const fetchLayanan = async () => {
       try {
-        const data = await getLayananByBengkelId(id);
+        const data = await getLayananBengkel(id);
         setLayanan(data);
       } catch (error) {
         console.error("Gagal memuat layanan:", error);
       }
     };
-
     if (bengkel) fetchLayanan();
   }, [bengkel, id]);
 
@@ -129,6 +132,10 @@ export default function BengkelDetail() {
               <p>
                 <strong>Kontak:</strong> {bengkel.telepon}
               </p>
+              <div className="bg-info text-white p-1 px-2 rounded">
+                <i className="fas fa-users"></i>
+                <span> Antrian: {bengkel.antrian_count}</span>
+              </div>
               <div className="text">
                 <Link
                   to={`/booking/${id}`}
@@ -147,9 +154,6 @@ export default function BengkelDetail() {
         <li className="nav-item" role="presentation">
           <button
             className={`nav-link ${activeTab === "layanan" ? "active" : ""}`}
-            id="layanan-tab"
-            type="button"
-            role="tab"
             onClick={() => setActiveTab("layanan")}
           >
             Layanan
@@ -158,12 +162,17 @@ export default function BengkelDetail() {
         <li className="nav-item" role="presentation">
           <button
             className={`nav-link ${activeTab === "lokasi" ? "active" : ""}`}
-            id="lokasi-tab"
-            type="button"
-            role="tab"
             onClick={() => setActiveTab("lokasi")}
           >
             Lokasi Bengkel
+          </button>
+        </li>
+        <li className="nav-item" role="presentation">
+          <button
+            className={`nav-link ${activeTab === "ulasan" ? "active" : ""}`}
+            onClick={() => setActiveTab("ulasan")}
+          >
+            Ulasan
           </button>
         </li>
       </ul>
@@ -174,9 +183,6 @@ export default function BengkelDetail() {
           className={`tab-pane fade ${
             activeTab === "layanan" ? "show active" : ""
           }`}
-          id="layanan"
-          role="tabpanel"
-          aria-labelledby="layanan-tab"
         >
           <h5>Daftar Layanan Tersedia:</h5>
           {layanan.length === 0 ? (
@@ -197,9 +203,6 @@ export default function BengkelDetail() {
           className={`tab-pane fade ${
             activeTab === "lokasi" ? "show active" : ""
           }`}
-          id="lokasi"
-          role="tabpanel"
-          aria-labelledby="lokasi-tab"
         >
           {bengkel.lat && bengkel.long && (
             <MapContainer
@@ -211,7 +214,7 @@ export default function BengkelDetail() {
               <MapResizer trigger={activeTab === "lokasi"} />
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+                attribution="&copy; OpenStreetMap contributors"
               />
               <Marker position={[bengkel.lat, bengkel.long]} icon={customIcon}>
                 <Popup>
@@ -231,9 +234,49 @@ export default function BengkelDetail() {
             </button>
           </div>
         </div>
+
+        {/* Tab Ulasan */}
+        <div
+          className={`tab-pane fade ${
+            activeTab === "ulasan" ? "show active" : ""
+          }`}
+        >
+          <h5>Ulasan Pelanggan:</h5>
+          {!bengkel.ulasan || bengkel.ulasan.length === 0 ? (
+            <p>Belum ada ulasan.</p>
+          ) : (
+            <ul className="list-group">
+              {bengkel.ulasan.map((item) => (
+                <li
+                  key={item.id}
+                  className="list-group-item d-flex align-items-start"
+                >
+                  <img
+                    src={item.user?.image || "/user-placeholder.jpg"}
+                    alt="User"
+                    className="rounded-circle me-3"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div>
+                    <strong>{item.user?.name || "Anonim"}</strong> -{" "}
+                    <span>{Array(item.stars).fill("⭐").join("")}</span>
+                    <p className="mb-1">{item.review}</p>
+                    <small className="text-muted">
+                      {new Date(item.created_at).toLocaleDateString()}
+                    </small>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
-      {/* Rekomendasi Bengkel */}
+      {/* Rekomendasi */}
       <div className="mt-5">
         <h3>Rekomendasi Bengkel Lainnya</h3>
         <div className="row">
@@ -254,7 +297,7 @@ export default function BengkelDetail() {
                   <p>{item.alamat}</p>
                   <button
                     onClick={(e) => {
-                      e.stopPropagation(); // cegah klik card juga
+                      e.stopPropagation();
                       openNavigation(item.lat, item.long);
                     }}
                     className="btn detail-btn-info"

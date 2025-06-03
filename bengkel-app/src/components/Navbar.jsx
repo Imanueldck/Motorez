@@ -98,7 +98,23 @@ const Navbar = () => {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="dropdown-button"
               >
-                <FaUserCircle />
+                <img
+                  src={
+                    user && user.image
+                      ? user.image
+                      : "/assets/img/user2-160x160.jpg"
+                  }
+                  className="user-image img-circle elevation-2"
+                  alt="User Image"
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                    border: "1px solid #ccc",
+                  }}
+                />
+
                 <span className="user-name">{user.name}</span>
                 <svg
                   width="12"
