@@ -8,7 +8,7 @@
 .caribengkel-hero {
   background: linear-gradient(to right, #1236a4, #1e56a0);
   color: white;
-  padding: 60px 20px;
+  padding: 90px 20px;
   border-radius: 0 0 80px 80px;
   position: relative;
 }
@@ -29,12 +29,12 @@
 }
 
 /* Search Bar */
-.caribengkel-search {
+.search-input-hero{
   margin: 20px auto;
   max-width: 400px;
 }
 
-.caribengkel-search input {
+.search-input-hero {
   width: 100%;
   padding: 12px;
   border: none;
@@ -42,6 +42,46 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 16px;
   outline: none;
+}
+.hasil-pencarian-container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.hasil-pencarian-container h4 {
+  margin-bottom: 1rem;
+  font-size: 29px;
+  font-weight: 700;
+  margin-bottom: 60px;
+  color: #1236a4;
+}
+@media (max-width: 768px) {
+  .hasil-pencarian-container {
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 1.5rem 1rem;
+  }
+
+  .hasil-pencarian-container h4 {
+    font-size: 22px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hasil-pencarian-container {
+    padding: 0.75rem;
+    border-radius: 10px;
+    margin: 1rem 0.5rem;
+  }
+
+  .hasil-pencarian-container h4 {
+    font-size: 20px;
+    margin-bottom: 50px;
+  }
 }
 
 

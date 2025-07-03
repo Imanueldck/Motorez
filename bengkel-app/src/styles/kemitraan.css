@@ -69,7 +69,7 @@
 
 .kemitraan-page .hero-image img {
   max-width: 90%;
-  height: auto;
+  height: 500px;
   animation: float 4s ease-in-out infinite;
 }
 

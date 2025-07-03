@@ -28,17 +28,17 @@ export default function Kontak() {
           <div className="kontak-card">
             <FaMapMarkerAlt className="kontak-icon" />
             <h3 className="kontak-heading">Alamat</h3>
-            <p className="kontak-text">Jl. Teknologi No. 88, Jakarta</p>
+            <p className="kontak-text">Jl. Pahlawan No. 123, Semarang</p>
           </div>
           <div className="kontak-card">
             <FaPhoneAlt className="kontak-icon" />
             <h3 className="kontak-heading">Telepon</h3>
-            <p className="kontak-text">+62 812 3456 7890</p>
+            <p className="kontak-text">+62 123 456 789</p>
           </div>
           <div className="kontak-card">
             <FaEnvelope className="kontak-icon" />
             <h3 className="kontak-heading">Email</h3>
-            <p className="kontak-text">support@bengkelkita.com</p>
+            <p className="kontak-text">motorez@gmail.com</p>
           </div>
         </div>
       </div>

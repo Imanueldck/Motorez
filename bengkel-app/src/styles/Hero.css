@@ -9,7 +9,8 @@
   background-repeat: no-repeat; /* Jangan ulangi gambar */
   color: white;
   flex-wrap: wrap; /* Agar elemen bisa membungkus jika diperlukan */
-  min-height: 500px; /* Tambahkan tinggi minimum agar terlihat bagus */
+  min-height: 500px;
+  border-bottom-left-radius: 120px;
 }
 
 .hero-content {
@@ -37,7 +38,7 @@
   color: white;
   padding: 1rem 2rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 1rem;
 }
@@ -48,8 +49,24 @@
 
 .hero-image img {
   max-width: 100%;
-  height: 250px;
+  height: 290px;
   border-radius: 10px;
+}
+
+
+
+
+.hero-image img {
+  animation: floatUpDown 2s ease-in-out infinite;
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Media Queries untuk Responsif */
@@ -64,11 +81,11 @@
   }
 
   .hero-title {
-    font-size: 2rem; /* Ukuran font lebih kecil */
+    font-size: 2.2rem; /* Ukuran font lebih kecil */
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .hero-button {
@@ -98,15 +115,15 @@
 
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 
   .hero-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .hero-button {
-    font-size: 0.7rem;
-    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    padding: 0.6rem 1.1rem;
   }
 }

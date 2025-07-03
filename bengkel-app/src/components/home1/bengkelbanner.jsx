@@ -4,9 +4,12 @@ import "../../styles/bengkelBanner.css";
 const BengkelBanner = () => {
   return (
     <div className="bengkel-banner">
+      <div className="bengkel-overlay" />
       <div className="bengkel-content">
-        <h1>Cari Bengkel Terdekat dengan Mudah!</h1>
-        <button className="bengkel-button">Cari Sekarang</button>
+        <h1>
+          Temukan <span className="highlight">Bengkel Terdekat</span> dengan
+          Cepat & Mudah!
+        </h1>
       </div>
     </div>
   );

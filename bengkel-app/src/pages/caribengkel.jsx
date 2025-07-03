@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllBengkel, getDetailBengkel } from "./HandleApi";
+import { getAllBengkel } from "./HandleApi";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
@@ -7,7 +7,6 @@ import "leaflet/dist/leaflet.css";
 import "../styles/caribengkel.css";
 import customMarker from "../assets/location.png"; // Gambar marker custom
 
-// Custom Icon untuk bengkel
 const customIcon = new L.Icon({
   iconUrl: customMarker,
   iconSize: [32, 32],
@@ -17,8 +16,9 @@ const customIcon = new L.Icon({
 
 export default function Bengkel() {
   const [bengkels, setBengkels] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [userPosition, setUserPosition] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   // Ambil lokasi user
@@ -36,15 +36,14 @@ export default function Bengkel() {
     }
   }, []);
 
-  // Ambil data bengkel
+  // Ambil data bengkel dari API
   useEffect(() => {
     const fetchData = async () => {
-      if (!userPosition) return; // Tunggu sampai userPosition tersedia
+      if (!userPosition) return;
 
       try {
         const data = await getAllBengkel(userPosition[0], userPosition[1]);
-        const filtered = data.filter((bengkel) => bengkel.status === 1);
-
+        const filtered = data.filter((b) => b.status === 1);
         setBengkels(filtered);
       } catch (err) {
         console.error(err);
@@ -62,9 +61,17 @@ export default function Bengkel() {
     return total / ulasan.length;
   };
 
+  const filteredBengkels = bengkels.filter((bengkel) => {
+    const keyword = searchTerm.toLowerCase();
+    return (
+      bengkel.nama.toLowerCase().includes(keyword) ||
+      (bengkel.alamat?.toLowerCase().includes(keyword) ?? false)
+    );
+  });
+
   return (
     <div className="caribengkel-container">
-      {/* Hero Section */}
+      {/* Hero Section dengan Search */}
       <div className="caribengkel-hero">
         <div className="caribengkel-content">
           <h1>Cari Bengkel Terdekat</h1>
@@ -72,6 +79,13 @@ export default function Bengkel() {
             Temukan bengkel motor dan mobil terpercaya di sekitarmu. Cek detail
             dan lokasi sekarang juga!
           </p>
+          <input
+            type="text"
+            placeholder="Cari nama atau alamat bengkel..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input-hero"
+          />
         </div>
       </div>
 
@@ -80,7 +94,6 @@ export default function Bengkel() {
         className="map-container"
         style={{ height: "400px", margin: "2rem 0" }}
       >
-        {/* Render map hanya setelah posisi user tersedia */}
         {userPosition && (
           <MapContainer
             center={userPosition}
@@ -92,15 +105,15 @@ export default function Bengkel() {
               attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             />
 
-            {/* Marker lokasi user */}
+            {/* Lokasi user */}
             <Marker position={userPosition}>
               <Popup>
                 <strong>Posisi Anda Saat Ini</strong>
               </Popup>
             </Marker>
 
-            {/* Marker untuk setiap bengkel */}
-            {bengkels.map((bengkel) => (
+            {/* Marker hasil pencarian (atau semua jika kosong) */}
+            {(searchTerm ? filteredBengkels : bengkels).map((bengkel) => (
               <Marker
                 key={bengkel.id}
                 position={[bengkel.lat, bengkel.long]}
@@ -119,73 +132,109 @@ export default function Bengkel() {
         )}
       </div>
 
-      {/* Card Daftar Bengkel */}
-      <div className="daftarbengkel-container my-4">
-        <h3 className="daftar-bengkel-judul">Daftar Bengkel Terdekat</h3>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
+      {/* Container Hasil Pencarian */}
+      {searchTerm && filteredBengkels.length > 0 && (
+        <div className="hasil-pencarian-container">
+          <h4>Hasil Pencarian:</h4>
           <div className="daftarbengkel-card-container">
-            {bengkels.map((bengkel) => {
-              const avgRating = getAverageRating(bengkel.ulasan);
-
-              return (
-                <div
-                  key={bengkel.id}
-                  className="daftarbengkel-card"
-                  onClick={() => navigate(`/bengkel/${bengkel.id}`)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <img
-                    src={bengkel.image || "/placeholder.jpg"}
-                    alt={bengkel.nama}
-                    className="daftarbengkel-image"
-                  />
-                  <div className="daftarbengkel-card-body">
-                    <h5 className="daftarbengkel-title">{bengkel.nama}</h5>
-
-                    {/* Rating bintang */}
-                    <p className="mb-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <i
-                          key={star}
-                          className={
-                            star <= Math.round(bengkel.ulasan_avg_stars ?? 0)
-                              ? "fas fa-star text-warning"
-                              : "far fa-star text-warning"
-                          }
-                          style={{ marginRight: "2px" }}
-                        ></i>
-                      ))}
-                      <span className="ms-1">
-                        ({(bengkel.ulasan_avg_stars ?? 0).toFixed(1)})
-                      </span>
-                    </p>
-
-                    <p style={{ textAlign: "left" }}>
+            {filteredBengkels.map((bengkel) => (
+              <div
+                key={bengkel.id}
+                className="daftarbengkel-card"
+                onClick={() => navigate(`/bengkel/${bengkel.id}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <img
+                  src={bengkel.image || "/placeholder.jpg"}
+                  alt={bengkel.nama}
+                  className="daftarbengkel-image"
+                />
+                <div className="daftarbengkel-card-body">
+                  <h5 className="daftarbengkel-title">{bengkel.nama}</h5>
+                  <p className="mb-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
                       <i
-                        className="fa fa-clock"
-                        style={{ marginRight: "8px", color: "#555" }}
+                        key={star}
+                        className={
+                          star <= Math.round(bengkel.ulasan_avg_stars ?? 0)
+                            ? "fas fa-star text-warning"
+                            : "far fa-star text-warning"
+                        }
+                        style={{ marginRight: "2px" }}
                       ></i>
-                      <strong>Jam Operasional:</strong>{" "}
-                      {bengkel.jam_buka.slice(0, 5)} -{" "}
-                      {bengkel.jam_selesai.slice(0, 5)}
-                    </p>
-
-                    <p style={{ textAlign: "left" }}>
-                      <i
-                        className="fa fa-map-marker-alt"
-                        style={{ marginRight: "8px", color: "#555" }}
-                      ></i>
-                      <strong>Jarak:</strong> {bengkel.distance} meters
-                    </p>
-                  </div>
+                    ))}
+                    <span className="ms-1">
+                      ({(bengkel.ulasan_avg_stars ?? 0).toFixed(1)})
+                    </span>
+                  </p>
+                  <p>
+                    <strong>Alamat:</strong> {bengkel.alamat}
+                  </p>
                 </div>
-              );
-            })}
+                <p>
+                  <strong>Jarak:</strong> {bengkel.distance} meters
+                </p>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Daftar Bengkel Terdekat */}
+      {!searchTerm && (
+        <div className="daftarbengkel-container my-4">
+          <h3 className="daftar-bengkel-judul">Daftar Bengkel Terdekat</h3>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <div className="daftarbengkel-card-container">
+              {bengkels.map((bengkel) => {
+                const avgRating = getAverageRating(bengkel.ulasan);
+                return (
+                  <div
+                    key={bengkel.id}
+                    className="daftarbengkel-card"
+                    onClick={() => navigate(`/bengkel/${bengkel.id}`)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <img
+                      src={bengkel.image || "/placeholder.jpg"}
+                      alt={bengkel.nama}
+                      className="daftarbengkel-image"
+                    />
+                    <div className="daftarbengkel-card-body">
+                      <h5 className="daftarbengkel-title">{bengkel.nama}</h5>
+                      <p className="mb-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <i
+                            key={star}
+                            className={
+                              star <= Math.round(bengkel.ulasan_avg_stars ?? 0)
+                                ? "fas fa-star text-warning"
+                                : "far fa-star text-warning"
+                            }
+                            style={{ marginRight: "2px" }}
+                          ></i>
+                        ))}
+                        <span className="ms-1">
+                          ({(bengkel.ulasan_avg_stars ?? 0).toFixed(1)})
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Jam:</strong> {bengkel.jam_buka.slice(0, 5)} -{" "}
+                        {bengkel.jam_selesai.slice(0, 5)}
+                      </p>
+                      <p>
+                        <strong>Jarak:</strong> {bengkel.distance} meters
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

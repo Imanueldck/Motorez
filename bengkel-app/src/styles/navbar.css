@@ -36,12 +36,22 @@
 }
 
 .logo-image {
-  height: 90px;
+  height: 80px;
   width: auto;
   object-fit: contain;
   display: block;
 }
+@media (max-width: 768px) {
+  .logo-image {
+    height: 60px; 
+  }
+}
 
+@media (max-width: 480px) {
+  .logo-image {
+    height: 55px;
+  }
+}
 
 .navbar-menu {
   display: flex;
@@ -121,8 +131,8 @@
 }
 
 .user-image-custom {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid #ccc;

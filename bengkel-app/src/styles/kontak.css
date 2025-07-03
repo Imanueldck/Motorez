@@ -63,75 +63,113 @@ background: linear-gradient(90deg, rgba(109, 151, 242, 1) 0%, rgba(37, 99, 235, 
 
 /* Info Section */
 .kontak-info {
-  background-color: white;
   padding: 60px 20px;
-}
-
-.kontak-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
+  background-color: #f9f9f9;
   text-align: center;
 }
 
+.kontak-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .kontak-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease;
-  background-color: #fff;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 30px 25px;
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .kontak-card:hover {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  background-color: #007BFF;
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .kontak-icon {
-  color: #2563eb;
   font-size: 32px;
+  color: #007BFF;
   margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+.kontak-card:hover .kontak-icon {
+  color: #ffffff;
 }
 
 .kontak-heading {
-  font-size: 18px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
   font-weight: 600;
-  margin-bottom: 5px;
 }
-
+.kontak-card:hover .kontak-heading {
+  color: #ffffff;
+}
 .kontak-text {
-  color: #4b5563;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
+.kontak-card:hover .kontak-text {
+  color: #ffffff;
 }
 
 /* Sosmed Section */
 .kontak-sosmed {
-  background-color: white;
-  padding: 40px 20px;
+  background-color: #ffffff;
+  padding: 60px 20px;
   text-align: center;
+  border-top: 2px solid #e5e7eb;
 }
 
 .sosmed-title {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   color: #1f2937;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  position: relative;
+  display: inline-block;
+}
+
+.sosmed-title::after {
+  content: "";
+  display: block;
+  width: 50%;
+  height: 3px;
+  background-color: #2563eb;
+  margin: 8px auto 0;
+  border-radius: 2px;
 }
 
 .sosmed-icons {
   display: flex;
   justify-content: center;
-  gap: 25px;
-  font-size: 24px;
+  gap: 30px;
+  font-size: 26px;
+  margin-top: 15px;
+  flex-wrap: wrap;
 }
 
 .sosmed-icons a {
   color: #2563eb;
-  transition: color 0.3s ease;
-  text-decoration: none;
+  background-color: #e0ecff;
+  padding: 12px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .sosmed-icons a:hover {
-  color: #1d4ed8;
+  background-color: #2563eb;
+  color: #ffffff;
+  transform: scale(1.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
+
