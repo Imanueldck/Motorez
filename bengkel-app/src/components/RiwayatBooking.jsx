@@ -287,26 +287,28 @@ export default function RiwayatBooking() {
                           : "Selesai"}
                       </span>
                     </p>
-                    <button
-                      className="btn btn-primary btn-sm me-2"
-                      onClick={() => startEdit(booking)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-info btn-sm"
-                      onClick={() => openDetailModal(booking)}
-                    >
-                      Detail
-                    </button>
-                    {booking.status === 3 && (
+                    <div className="d-flex gap-3 flex-wrap">
                       <button
-                        className="btn btn-success btn-sm"
-                        onClick={() => openReviewModal(booking)}
+                        className="btn btn-primary btn-sm"
+                        onClick={() => startEdit(booking)}
                       >
-                        Beri Ulasan
+                        Edit
                       </button>
-                    )}
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => openDetailModal(booking)}
+                      >
+                        Detail
+                      </button>
+                      {booking.status === 3 && (
+                        <button
+                          className="btn btn-success btn-sm"
+                          onClick={() => openReviewModal(booking)}
+                        >
+                          Beri Ulasan
+                        </button>
+                      )}
+                    </div>
                   </>
                 )}
               </div>
@@ -342,79 +344,73 @@ export default function RiwayatBooking() {
               ></button>
             </div>
             {selectedBooking && (
-              <div className="modal-body">
-                <p>
-                  <strong style={{ color: "#007bff" }}>Nama:</strong>
-                  <span style={{ color: "#333" }}> {selectedBooking.nama}</span>
-                </p>
-                <p>
-                  <strong style={{ color: "#007bff" }}>Jenis Kendaraan:</strong>{" "}
-                  <span style={{ color: "#333" }}>
-                    {selectedBooking.nama_kendaraan}
-                  </span>
-                </p>
-                <p>
-                  <strong style={{ color: "#007bff" }}>Plat:</strong>{" "}
-                  <span style={{ color: "#333" }}>{selectedBooking.plat}</span>
-                </p>
-                <p>
-                  <strong style={{ color: "#007bff" }}>Keluhan:</strong>{" "}
-                  <span style={{ color: "#333" }}>
-                    {selectedBooking.keluhan}
-                  </span>
-                </p>
-                <p>
-                  <strong style={{ color: "#007bff" }}>Tanggal Diambil:</strong>
-                  <span style={{ color: "#333", marginLeft: "8px" }}>
-                    {selectedBooking.tgl_ambil
-                      ? new Date(selectedBooking.tgl_ambil).toLocaleDateString(
-                          "id-ID"
-                        )
-                      : "-"}
-                  </span>
-                </p>
-                <p>
-                  <strong style={{ color: "#007bff" }}>Jam Diambil:</strong>
-                  <span style={{ color: "#333", marginLeft: "8px" }}>
-                    {selectedBooking.jam_ambil || "-"}
-                  </span>
-                </p>
-                <p className="booking-status">
-                  <strong style={{ color: "#007bff" }}>Status:</strong>
-                  <span
-                    className={`ms-2 ${getStatusClass(selectedBooking.status)}`}
-                  >
-                    {selectedBooking.status === 0
-                      ? "Pending"
-                      : selectedBooking.status === 1
-                      ? "Proses"
-                      : selectedBooking.status === 2
-                      ? "Menunggu Diambil"
-                      : "Selesai"}
-                  </span>
-                </p>
+              <div className="modal-body" style={{ color: "#000" }}>
+                {/* === Informasi Umum Booking === */}
+                <table className="table table-bordered table-sm mb-4">
+                  <tbody>
+                    <tr>
+                      <th style={{ width: "35%" }}>Nama</th>
+                      <td>{selectedBooking.nama}</td>
+                    </tr>
+                    <tr>
+                      <th>Jenis Kendaraan</th>
+                      <td>{selectedBooking.nama_kendaraan}</td>
+                    </tr>
+                    <tr>
+                      <th>Plat</th>
+                      <td>{selectedBooking.plat}</td>
+                    </tr>
+                    <tr>
+                      <th>Keluhan</th>
+                      <td>{selectedBooking.keluhan}</td>
+                    </tr>
+                    <tr>
+                      <th>Tanggal Diambil</th>
+                      <td>
+                        {selectedBooking.tgl_ambil
+                          ? new Date(
+                              selectedBooking.tgl_ambil
+                            ).toLocaleDateString("id-ID")
+                          : "-"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Jam Diambil</th>
+                      <td>{selectedBooking.jam_ambil || "-"}</td>
+                    </tr>
+                    <tr>
+                      <th>Status</th>
+                      <td className={getStatusClass(selectedBooking.status)}>
+                        {selectedBooking.status === 0
+                          ? "Pending"
+                          : selectedBooking.status === 1
+                          ? "Proses"
+                          : selectedBooking.status === 2
+                          ? "Menunggu Diambil"
+                          : "Selesai"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
                 {/* Detail Servis */}
                 {selectedBooking.detail_servis &&
-                selectedBooking.detail_servis.length > 0 ? (
-                  <>
-                    <h5 style={{ color: "#007bff" }}>Detail Servis</h5>
-                    <table className="table table-bordered">
-                      <thead style={{ backgroundColor: "#f1f1f1" }}>
-                        <tr>
-                          <th>Sparepart</th>
-                          <th>Harga</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedBooking.detail_servis.length === 0 ? (
+                  selectedBooking.detail_servis.length > 0 && (
+                    <>
+                      <h5 className="mt-4 mb-3" style={{ color: "#007bff" }}>
+                        Detail Servis
+                      </h5>
+                      <table className="table table-bordered table-sm">
+                        <thead className="table-light">
                           <tr>
-                            <td colSpan="4" className="text-center">
-                              Tidak ada layanan atau sparepart.
-                            </td>
+                            <th>Tipe</th>
+                            <th>Nama</th>
+                            <th>Deskripsi</th>
+                            <th>Harga (Rp)</th>
                           </tr>
-                        ) : (
-                          selectedBooking.detail_servis.map((item) => (
+                        </thead>
+                        <tbody>
+                          {selectedBooking.detail_servis.map((item) => (
                             <tr key={item.id}>
                               <td>{item.type}</td>
                               <td>
@@ -428,58 +424,28 @@ export default function RiwayatBooking() {
                                   "-"}
                               </td>
                               <td>
-                                Rp{" "}
-                                {item.layanan?.harga || item.sparepart?.harga
-                                  ? parseInt(
-                                      item.layanan?.harga ||
-                                        item.sparepart?.harga
-                                    ).toLocaleString("id-ID")
-                                  : "0"}
+                                {parseInt(
+                                  item.layanan?.harga ||
+                                    item.sparepart?.harga ||
+                                    0
+                                ).toLocaleString("id-ID")}
                               </td>
                             </tr>
-                          ))
-                        )}
-                      </tbody>
-                    </table>
-                  </>
-                ) : (
-                  <p>Tidak ada detail servis.</p>
-                )}
-
-                {/* Detail Jenis Layanan */}
-                {selectedBooking.jenis_layanan &&
-                selectedBooking.jenis_layanan.length > 0 ? (
-                  <>
-                    <h5 style={{ color: "#007bff" }}>Jenis Layanan</h5>
-                    <table className="table table-bordered">
-                      <thead style={{ backgroundColor: "#f1f1f1" }}>
-                        <tr>
-                          <th>Layanan</th>
-                          <th>Harga</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedBooking.jenis_layanan.map((item, idx) => (
-                          <tr key={idx}>
-                            <td>{item.layanan?.nama || "-"}</td>
-                            <td>
-                              {formatRupiah(
-                                item.harga_layanan || item.layanan?.harga || 0
-                              )}
+                          ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colSpan="3" className="text-end fw-bold">
+                              Total Harga:
+                            </td>
+                            <td className="fw-bold text-success">
+                              {getTotalHargaRupiah(selectedBooking)}
                             </td>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </>
-                ) : (
-                  <p>Tidak ada jenis layanan.</p>
-                )}
-
-                <p>
-                  <strong style={{ color: "#007bff" }}>Total Harga:</strong>{" "}
-                  {getTotalHargaRupiah(selectedBooking)}
-                </p>
+                        </tfoot>
+                      </table>
+                    </>
+                  )}
               </div>
             )}
             <div className="modal-footer">
@@ -494,6 +460,7 @@ export default function RiwayatBooking() {
           </div>
         </div>
       </div>
+
       {/* MODAL REVIEW */}
       <div
         className="modal fade"
@@ -518,7 +485,10 @@ export default function RiwayatBooking() {
             <div className="modal-body">
               {/* Bintang rating */}
               <div className="mb-3">
-                <label className="form-label">Rating</label>
+                <label className="form-label" style={{ color: "#0C090A" }}>
+                  Rating
+                </label>
+
                 <div>
                   {[1, 2, 3, 4, 5].map((num) => (
                     <span
@@ -540,7 +510,11 @@ export default function RiwayatBooking() {
 
               {/* Komentar */}
               <div className="mb-3">
-                <label htmlFor="komentar" className="form-label">
+                <label
+                  htmlFor="komentar"
+                  className="form-label"
+                  style={{ color: "#0C090A" }}
+                >
                   Komentar
                 </label>
                 <textarea

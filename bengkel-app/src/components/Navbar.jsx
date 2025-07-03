@@ -8,6 +8,7 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import "../styles/navbar.css";
+import logo from "../image/logo.png";
 import { logoutUser, getUserProfile } from "../pages/HandleApi";
 
 const Navbar = () => {
@@ -72,8 +73,9 @@ const Navbar = () => {
 
       <nav className="navbar-home">
         <Link to="/" className="navbar-logo">
-          <FaWrench /> Motorez
+          <img src={logo} alt="Motorez Logo" className="logo-image" />
         </Link>
+
         <ul className="navbar-menu">
           <li>
             <Link to="/">Home</Link>
@@ -96,7 +98,7 @@ const Navbar = () => {
             <div className="dropdown-container" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="dropdown-button"
+                className="dropdown-button-custom"
               >
                 <img
                   src={
@@ -104,23 +106,16 @@ const Navbar = () => {
                       ? user.image
                       : "/assets/img/user2-160x160.jpg"
                   }
-                  className="user-image img-circle elevation-2"
-                  alt="User Image"
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    objectFit: "cover",
-                    borderRadius: "50%",
-                    border: "1px solid #ccc",
-                  }}
+                  className="user-image-custom"
+                  alt="User"
                 />
-
-                <span className="user-name">{user.name}</span>
+                <span className="user-name-custom">{user.name}</span>
                 <svg
-                  width="12"
-                  height="12"
-                  fill="currentColor"
+                  className="dropdown-icon"
+                  width="14"
+                  height="14"
                   viewBox="0 0 20 20"
+                  fill="currentColor"
                 >
                   <path d="M5.5 7l4.5 4.5L14.5 7" />
                 </svg>
@@ -203,6 +198,7 @@ const Navbar = () => {
                   }
                 >
                   <FaUserCircle className="user-icon" />
+
                   <span>{user.name}</span>
                 </div>
 

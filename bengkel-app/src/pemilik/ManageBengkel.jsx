@@ -9,7 +9,13 @@ import {
   updateBengkelStatus,
 } from "./HandleApi_owner";
 import Swal from "sweetalert2";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -22,12 +28,24 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
+// Komponen untuk memilih lokasi dengan klik
 const LocationPicker = ({ setLatLong }) => {
   useMapEvents({
     click(e) {
       setLatLong({ lat: e.latlng.lat, long: e.latlng.lng });
     },
   });
+  return null;
+};
+
+// Komponen untuk memindahkan peta ke koordinat terbaru
+const SetMapCenter = ({ lat, long }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (lat && long) {
+      map.setView([lat, long], 16);
+    }
+  }, [lat, long, map]);
   return null;
 };
 
@@ -102,6 +120,7 @@ const ManageBengkel = () => {
       reader.readAsDataURL(file);
     }
   };
+
   const handleToggleStatus = async () => {
     if (layanan.length === 0 || sparepart.length === 0) {
       Swal.fire({
@@ -109,11 +128,10 @@ const ManageBengkel = () => {
         title: "Tidak bisa update status",
         text: "Layanan dan sparepart harus tersedia sebelum mengubah status bengkel.",
       });
-      return; // Stop execution if condition not met
+      return;
     }
     try {
       const updatedStatus = !bengkel.status;
-
       await updateBengkelStatus(bengkel.id, Boolean(updatedStatus));
       setBengkel((prev) => ({
         ...prev,
@@ -122,6 +140,19 @@ const ManageBengkel = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleUseMyLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const long = pos.coords.longitude;
+        setFormData((prev) => ({ ...prev, lat, long }));
+      },
+      (err) => {
+        Swal.fire("Gagal", "Gagal mengambil lokasi Anda", "error");
+      }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -198,31 +229,38 @@ const ManageBengkel = () => {
           <div className="card">
             <div className="card-header d-flex justify-content-between align-items-center">
               <h3 className="card-title">Detail Bengkel</h3>
-              <div>
-                <button
-                  className="btn btn-warning btn-sm me-2"
-                  onClick={handleEdit}
-                >
+              <div className="d-flex flex-wrap gap-2 mt-2">
+                <button className="btn btn-warning btn-sm" onClick={handleEdit}>
                   Edit Bengkel
                 </button>
+
                 <button
                   className="btn btn-danger btn-sm"
                   onClick={handleDelete}
                 >
                   Hapus Bengkel
                 </button>
+
                 <button
-                  className={`btn ml-auto ${
+                  className={`btn btn-sm ${
                     bengkel.status ? "btn-success" : "btn-danger"
                   }`}
-                  onClick={() => handleToggleStatus()}
+                  onClick={handleToggleStatus}
                 >
                   <i
                     className={`fas ${
                       bengkel.status ? "fa-toggle-on" : "fa-toggle-off"
-                    } mr-1`}
+                    } me-1`}
                   ></i>
                   {bengkel.status ? "Buka" : "Tutup"}
+                </button>
+
+                <button
+                  className="btn btn-info btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#ulasanModal"
+                >
+                  Lihat Ulasan
                 </button>
               </div>
             </div>
@@ -323,6 +361,14 @@ const ManageBengkel = () => {
 
                 <div className="form-group">
                   <label>Lokasi Bengkel (Klik di Peta)</label>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-primary mb-2"
+                    onClick={handleUseMyLocation}
+                  >
+                    Gunakan Lokasi Saya
+                  </button>
+
                   <MapContainer
                     center={[formData.lat || -6.2, formData.long || 106.8]}
                     zoom={13}
@@ -334,6 +380,7 @@ const ManageBengkel = () => {
                         setFormData((prev) => ({ ...prev, lat, long }))
                       }
                     />
+                    <SetMapCenter lat={formData.lat} long={formData.long} />
                     {formData.lat && formData.long && (
                       <Marker position={[formData.lat, formData.long]} />
                     )}
@@ -393,8 +440,102 @@ const ManageBengkel = () => {
           </div>
         )}
       </div>
+      {/* Modal Ulasan Bengkel */}
+      <div
+        className="modal fade"
+        id="ulasanModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="ulasanModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className="modal-title"
+                id="ulasanModalLabel"
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.25rem",
+                  color: "#343a40",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                Ulasan Bengkel
+              </h5>
+
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              {bengkel?.ulasan?.length > 0 ? (
+                <div className="list-group">
+                  {bengkel.ulasan.map((ul) => (
+                    <div key={ul.id} className="list-group-item">
+                      <div className="d-flex justify-content-between align-items-center mb-1">
+                        <div className="d-flex align-items-center">
+                          <img
+                            src={
+                              ul.user?.image
+                                ? ul.user.image
+                                : "/assets/img/user2-160x160.jpg"
+                            }
+                            alt={ul.user?.name}
+                            style={{
+                              width: 40,
+                              height: 40,
+                              borderRadius: "50%",
+                              objectFit: "cover",
+                              marginRight: 10,
+                            }}
+                          />
+                          <div>
+                            <strong>{ul.user?.name}</strong>
+                            <div style={{ color: "#ffc107" }}>
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <i
+                                  key={star}
+                                  className={`fa-star ${
+                                    star <= ul.stars
+                                      ? "fas text-warning"
+                                      : "far text-muted"
+                                  }`}
+                                  style={{ marginRight: "2px" }}
+                                ></i>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <small className="text-muted">
+                          {new Date(ul.created_at).toLocaleString("id-ID", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </small>
+                      </div>
+                      <p className="mb-0">{ul.review}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted">Belum ada ulasan.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
+  z;
 };
 
 export default ManageBengkel;

@@ -5,23 +5,65 @@
   animation: detail-fade-in 0.6s ease-in;
 }
 
-/* Card Layout */
 .detail-card {
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.detail-card:hover {
+  transform: scale(1.01);
 }
 
 .detail-image {
-  object-fit: cover;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0 0 0 16px;
 }
 
 .detail-card-body {
-  padding: 1.5rem;
-  color:#444;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.detail-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 16px;
+}
+
+.detail-card-body p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.detail-card-body strong {
+  color: #444;
+}
+
+.detail-service-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.detail-service-btn:hover {
+  background-color: #0056b3;
+  color: #fff;
+  text-decoration: none;
+}
+
 
 /* Tombol Service */
 .detail-service-btn {

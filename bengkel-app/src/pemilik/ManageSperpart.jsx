@@ -144,9 +144,12 @@ export default function ManageSparepart() {
           <tbody>
             {sparepartList.map((sp) => (
               <tr key={sp.id}>
-                <td>{sp.nama}</td>
-                <td>{sp.deskripsi}</td>
-                <td>{sp.harga}</td>
+                <td style={{ color: "#2c3e50" }}>{sp.nama}</td>
+                <td style={{ color: "#2c3e50" }}>{sp.deskripsi}</td>
+                <td style={{ color: "#2c3e50" }}>
+                  Rp {parseInt(sp.harga).toLocaleString("id-ID")}
+                </td>
+
                 <td>
                   <button
                     className="sparepart-btn-edit"

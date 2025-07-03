@@ -181,51 +181,125 @@
   color: #1236a4;
 }
 
+/* faq Section - Kemitraan */
+/* ====== FAQ ACCORDION ====== */
+.kemitraan-faq {
+  padding: 80px 20px;
+  background-color: #fff;
+  text-align: center;
+}
 
-/* CTA Section */
+.kemitraan-faq h2 {
+  font-size: 2rem;
+  color: #0d2b7a;
+  margin-bottom: 40px;
+}
+
+.accordion-faq {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #ddd;
+  padding: 16px 0;
+}
+
+.accordion-title {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1236a4;
+}
+
+.accordion-icon {
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.accordion-content {
+  margin-top: 10px;
+  display: none;
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* CTA Section - Kemitraan */
 .kemitraan-page .cta-section {
   text-align: center;
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #1236a4, #305ce0);
+  padding: 30px 30px;
+  background: linear-gradient(135deg, #0d2b7a, #305ce0, #1a47c6);
   color: #fff;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .kemitraan-page .cta-content {
-  max-width: 700px;
+  max-width: 740px;
   margin: 0 auto;
+  z-index: 2;
+  position: relative;
 }
 
 .kemitraan-page .cta-content h2 {
-  font-size: 2.8rem;
+  font-size: 3rem;
   margin-bottom: 20px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #f5f5f5;
 }
 
 .kemitraan-page .cta-content p {
   font-size: 1.25rem;
-  margin-bottom: 40px;
-  line-height: 1.6;
+  margin-bottom: 36px;
+  line-height: 1.7;
+  opacity: 0.95;
 }
 
 .kemitraan-page .btn-cta {
-  background-color: #ffb703;
+  background-color: #ffca3a;
   color: #0d2b7a;
-  padding: 16px 40px;
+  padding: 14px 36px;
   border: none;
-  border-radius: 50px;
-  font-size: 1rem;
+  border-radius: 40px;
+  font-size: 1.05rem;
   font-weight: 600;
+  letter-spacing: 0.3px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .kemitraan-page .btn-cta:hover {
-  background-color: #f0a600;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  background-color: #f0b400;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
 }
+
+/* Optional: Subtle Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 
 /* Responsive */

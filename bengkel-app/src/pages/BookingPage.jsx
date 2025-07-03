@@ -15,7 +15,8 @@ export default function BookingPage() {
   const [bengkel, setBengkel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [layananOptions, setLayananOptions] = useState([]);
-  const [jamOptions, setJamOptions] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [availableDates, setAvailableDates] = useState([]);
 
   const [form, setForm] = useState({
     nama_kendaraan: "",
@@ -23,7 +24,7 @@ export default function BookingPage() {
     keluhan: "",
     tgl_booking: "",
     jam_booking: "",
-    jenis_layanan: "", // single select, jadi string id layanan
+    jenis_layanan: "",
   });
 
   useEffect(() => {
@@ -51,10 +52,7 @@ export default function BookingPage() {
         const layanan = await getLayananBengkel(id);
         setLayananOptions(layanan);
 
-        if (data.jam_buka && data.jam_selesai) {
-          const generated = generateJamOptions(data.jam_buka, data.jam_selesai);
-          setJamOptions(generated);
-        }
+        setAvailableDates(Object.keys(data.available_slots || {}));
       } catch {
         Swal.fire("Error", "Gagal mengambil data bengkel", "error");
       } finally {
@@ -65,17 +63,16 @@ export default function BookingPage() {
     fetchBengkel();
   }, [id, navigate]);
 
-  const generateJamOptions = (jamBuka, jamTutup) => {
-    const options = [];
-    const [startHour] = jamBuka.split(":").map(Number);
-    const [endHour] = jamTutup.split(":").map(Number);
-
-    for (let hour = startHour; hour < endHour; hour++) {
-      const jam = hour.toString().padStart(2, "0") + ":00";
-      options.push(jam);
+  useEffect(() => {
+    if (bengkel && form.tgl_booking) {
+      const slots = bengkel.available_slots[form.tgl_booking] || [];
+      setAvailableTimes(slots);
+      setForm((prev) => ({
+        ...prev,
+        jam_booking: "",
+      }));
     }
-    return options;
-  };
+  }, [form.tgl_booking, bengkel]);
 
   const checkPlat = async (platValue) => {
     try {
@@ -110,6 +107,24 @@ export default function BookingPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!form.tgl_booking || !form.jam_booking) {
+      Swal.fire({
+        icon: "warning",
+        title: "Tanggal/Jam belum dipilih",
+        text: "Silakan pilih tanggal dan jam booking.",
+      });
+      return;
+    }
+
+    if (!form.jenis_layanan) {
+      Swal.fire({
+        icon: "warning",
+        title: "Layanan belum dipilih",
+        text: "Silakan pilih layanan terlebih dahulu.",
+      });
+      return;
+    }
+
     const selectedDate = new Date(form.tgl_booking);
     const today = new Date();
 
@@ -119,6 +134,8 @@ export default function BookingPage() {
       selectedDate.getDate() === today.getDate();
 
     if (isToday) {
+      if (!form.jam_booking) return;
+
       const [jam, menit] = form.jam_booking.split(":").map(Number);
       const bookingDateTime = new Date();
       bookingDateTime.setHours(jam, menit, 0, 0);
@@ -131,15 +148,6 @@ export default function BookingPage() {
         });
         return;
       }
-    }
-
-    if (!form.jenis_layanan) {
-      Swal.fire({
-        icon: "warning",
-        title: "Layanan belum dipilih",
-        text: "Silakan pilih layanan terlebih dahulu.",
-      });
-      return;
     }
 
     const bookingData = {
@@ -171,17 +179,6 @@ export default function BookingPage() {
       });
     }
   };
-
-  const formatDateTime = (date) => {
-    const pad = (n) => n.toString().padStart(2, "0");
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
-      date.getDate()
-    )}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-  };
-
-  const now = new Date();
-  const minDate = new Date(now.getTime() + 2 * 60 * 60 * 1000); // +2 jam
-  const maxDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // +3 hari
 
   if (loading) return <div className="text-center mt-5">Loading...</div>;
   if (!bengkel)
@@ -234,33 +231,42 @@ export default function BookingPage() {
               ></textarea>
             </div>
 
-            <div className="mb-3">
-              <label className="bookingpage-label">Tanggal Booking</label>
-              <input
-                type="date"
+            <div className="form-group mb-3">
+              <label>Tanggal Booking</label>
+              <select
                 name="tgl_booking"
-                className="bookingpage-input"
+                className="form-control"
                 value={form.tgl_booking}
                 onChange={handleChange}
-                min={formatDateTime(minDate).split("T")[0]}
-                max={formatDateTime(maxDate).split("T")[0]}
                 required
-              />
+              >
+                <option value="">-- Pilih Tanggal --</option>
+                {availableDates.map((date) => (
+                  <option key={date} value={date}>
+                    {new Date(date).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            <div className="mb-3">
-              <label className="bookingpage-label">Jam Booking</label>
+            <div className="form-group mb-3">
+              <label>Jam Booking</label>
               <select
-                className="bookingpage-input"
                 name="jam_booking"
+                className="form-control"
                 value={form.jam_booking}
                 onChange={handleChange}
                 required
               >
                 <option value="">-- Pilih Jam --</option>
-                {jamOptions.map((jam) => (
-                  <option key={jam} value={jam}>
-                    {jam}
+                {availableTimes.map((slot) => (
+                  <option key={slot.jam} value={slot.jam}>
+                    {slot.jam} - {slot.jumlah_booking} booking
                   </option>
                 ))}
               </select>

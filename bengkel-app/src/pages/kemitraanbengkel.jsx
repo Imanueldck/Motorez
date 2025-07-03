@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/kemitraan.css";
 import ilustrasion from "../assets/rockers-rafiki.png";
@@ -9,6 +10,36 @@ import {
 } from "react-icons/fa";
 
 const KemitraanBengkel = () => {
+  useEffect(() => {
+    const accordions = document.querySelectorAll(".accordion-title");
+    accordions.forEach((btn) => {
+      const icon = btn.querySelector(".accordion-icon");
+      btn.nextElementSibling.style.display = "none";
+      icon.textContent = "+";
+    });
+  }, []);
+
+  const toggleAccordion = (e) => {
+    const button = e.currentTarget;
+    const content = button.nextElementSibling;
+    const icon = button.querySelector(".accordion-icon");
+
+    const isOpen = content.style.display === "block";
+
+    document.querySelectorAll(".accordion-content").forEach((c) => {
+      c.style.display = "none";
+    });
+
+    document.querySelectorAll(".accordion-icon").forEach((i) => {
+      i.textContent = "+";
+    });
+
+    if (!isOpen) {
+      content.style.display = "block";
+      icon.textContent = "-";
+    }
+  };
+
   return (
     <div className="kemitraan-page">
       <section className="kemitraan-hero-v2">
@@ -80,6 +111,75 @@ const KemitraanBengkel = () => {
               Kami menyediakan dukungan teknis penuh untuk kenyamanan bisnis
               Anda.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="kemitraan-faq">
+        <h2>Pertanyaan yang Sering Diajukan</h2>
+        <div className="accordion-faq">
+          <div className="accordion-item">
+            <button className="accordion-title" onClick={toggleAccordion}>
+              Apa syarat untuk bergabung sebagai mitra Motorez?
+              <span className="accordion-icon">+</span>
+            </button>
+            <div className="accordion-content">
+              <p>
+                Anda hanya perlu memiliki bengkel yang beroperasi aktif dan
+                informasi layanan yang jelas.
+              </p>
+            </div>
+          </div>
+
+          <div className="accordion-item">
+            <button className="accordion-title" onClick={toggleAccordion}>
+              Apakah ada biaya untuk menjadi mitra?
+              <span className="accordion-icon">+</span>
+            </button>
+            <div className="accordion-content">
+              <p>
+                Tidak. Pendaftaran sebagai mitra di Motorez saat ini gratis.
+              </p>
+            </div>
+          </div>
+
+          <div className="accordion-item">
+            <button className="accordion-title" onClick={toggleAccordion}>
+              Bagaimana cara menerima pemesanan dari pelanggan?
+              <span className="accordion-icon">+</span>
+            </button>
+            <div className="accordion-content">
+              <p>
+                Anda akan mendapatkan akses ke dashboard untuk melihat dan
+                mengelola pemesanan yang masuk.
+              </p>
+            </div>
+          </div>
+
+          <div className="accordion-item">
+            <button className="accordion-title" onClick={toggleAccordion}>
+              Apakah saya bisa mengubah informasi bengkel saya?
+              <span className="accordion-icon">+</span>
+            </button>
+            <div className="accordion-content">
+              <p>
+                Tentu saja. Anda bisa memperbarui informasi bengkel melalui
+                dashboard pemilik.
+              </p>
+            </div>
+          </div>
+
+          <div className="accordion-item">
+            <button className="accordion-title" onClick={toggleAccordion}>
+              Bagaimana jika saya mengalami kendala teknis?
+              <span className="accordion-icon">+</span>
+            </button>
+            <div className="accordion-content">
+              <p>
+                Tim dukungan kami selalu siap membantu Anda kapan saja jika
+                mengalami masalah teknis.
+              </p>
+            </div>
           </div>
         </div>
       </section>

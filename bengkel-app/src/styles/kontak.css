@@ -1,114 +1,137 @@
+.kontak-container {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fafb;
+}
+
 /* Hero Section */
 .kontak-hero {
-    position: relative;
-    background-color: #2563eb; /* blue-600 */
-    color: white;
-    padding: 5rem 1.5rem;
-    text-align: center;
+ background: #6d97f2;
+background: linear-gradient(90deg, rgba(109, 151, 242, 1) 0%, rgba(37, 99, 235, 1) 0%, rgba(33, 69, 145, 1) 50%, rgba(23, 45, 94, 1) 100%);
+  color: white;
+  padding: 120px 20px;
+  text-align: center;
+  position: relative;
+  border-bottom-right-radius: 150px;
+  animation: fadeInHero 1s ease-in;
+}
+@keyframes fadeInHero {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .kontak-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .kontak-subtitle {
-    font-size: 1.125rem;
-    max-width: 32rem;
-    margin: 0 auto;
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
   }
-  
-  .kontak-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-color: #1e40af; /* blue-700 */
-    opacity: 0.2;
-    z-index: -1;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Info Kontak */
-  .kontak-info {
-    background-color: white;
-    padding: 3rem 1.5rem;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
   }
-  
-  .kontak-info-item svg {
-    color: #2563eb;
-    font-size: 1.75rem;
-    margin-bottom: 0.5rem;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .kontak-info-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-  
-  .kontak-info-text {
-    color: #4b5563; /* gray-600 */
-  }
-  
-  /* Form Section */
-  .kontak-form-wrapper {
-    background-color: #f9fafb; /* gray-50 */
-    padding: 4rem 1.5rem;
-  }
-  
-  .kontak-form-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1f2937; /* gray-800 */
-    margin-bottom: 1.5rem;
-  }
-  
-  .kontak-input {
-    padding: 0.75rem;
-    border: 1px solid #d1d5db; /* gray-300 */
-    border-radius: 0.75rem;
-    outline: none;
-  }
-  
-  .kontak-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4);
-  }
-  
-  .kontak-button {
-    background-color: #2563eb;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem;
-    transition: background-color 0.3s ease;
-    font-weight: 500;
-  }
-  
-  .kontak-button:hover {
-    background-color: #1d4ed8;
-  }
-  
-  /* Social Media */
-  .kontak-sosmed {
-    background-color: white;
-    padding: 2.5rem 1.5rem;
-    text-align: center;
-  }
-  
-  .kontak-sosmed p {
-    color: #374151; /* gray-700 */
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .kontak-sosmed a {
-    font-size: 1.25rem;
-    color: #2563eb;
-    margin: 0 0.75rem;
-    transition: color 0.3s ease;
-  }
-  
-  .kontak-sosmed a:hover {
-    color: #1d4ed8;
-  }
-  
+}
+
+.kontak-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+.kontak-subtitle {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #f3f4f6;
+  animation: fadeInUp 1.2s ease-in-out;
+}
+
+/* Info Section */
+.kontak-info {
+  background-color: white;
+  padding: 60px 20px;
+}
+
+.kontak-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kontak-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.kontak-card:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.kontak-icon {
+  color: #2563eb;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.kontak-heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.kontak-text {
+  color: #4b5563;
+}
+
+/* Sosmed Section */
+.kontak-sosmed {
+  background-color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.sosmed-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+.sosmed-icons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  font-size: 24px;
+}
+
+.sosmed-icons a {
+  color: #2563eb;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.sosmed-icons a:hover {
+  color: #1d4ed8;
+}

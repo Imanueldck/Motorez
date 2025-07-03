@@ -172,45 +172,48 @@ export default function ListBooking() {
                 ></button>
               </div>
               <div className="modal-body">
-                <p>
+                <p className="text-secondary">
                   <strong>Kendaraan:</strong>{" "}
                   {selectedBooking.jenis_kendaraan ||
                     selectedBooking.nama_kendaraan}
                 </p>
-                <p>
+                <p className="text-secondary">
                   <strong>Plat:</strong> {selectedBooking.plat}
                 </p>
-                <p>
+                <p className="text-secondary">
                   <strong>Keluhan:</strong> {selectedBooking.keluhan}
                 </p>
-                <p>
+                <p className="text-secondary">
                   <strong>Tanggal Booking:</strong>{" "}
                   {selectedBooking.tgl_booking
                     ? new Date(selectedBooking.tgl_booking).toLocaleDateString()
                     : "-"}
                 </p>
-                <p>
+                <p className="text-secondary">
                   <strong>Jam Booking:</strong>{" "}
                   {selectedBooking.jam_booking || "-"}
                 </p>
-                <p>
+                <p className="text-secondary">
                   <strong>Tanggal Ambil:</strong>{" "}
                   {selectedBooking.tgl_ambil
                     ? new Date(selectedBooking.tgl_ambil).toLocaleDateString()
                     : "-"}
                 </p>
-                <p>
+                <p className="text-secondary">
                   <strong>Jam Ambil:</strong> {selectedBooking.jam_ambil || "-"}
                 </p>
+
                 <div>
-                  <strong>Jenis Layanan:</strong>
+                  <strong className="text-secondary">
+                    Jenis Layanan & Sparepart:
+                  </strong>
                   {selectedBooking.detail_servis.length === 0 ? (
                     <p className="text-muted">
                       Tidak ada layanan atau sparepart.
                     </p>
                   ) : (
-                    <table className="table table-sm mt-2">
-                      <thead>
+                    <table className="table table-bordered table-sm mt-2">
+                      <thead className="table-light">
                         <tr>
                           <th>Tipe</th>
                           <th>Nama</th>
@@ -219,30 +222,47 @@ export default function ListBooking() {
                         </tr>
                       </thead>
                       <tbody>
-                        {selectedBooking.detail_servis.map((item) => (
-                          <tr key={item.id}>
-                            <td>{item.type}</td>
-                            <td>
-                              {item.layanan?.nama ||
-                                item.sparepart?.nama ||
-                                "-"}
-                            </td>
-                            <td>
-                              {item.layanan?.deskripsi ||
-                                item.sparepart?.deskripsi ||
-                                "-"}
-                            </td>
-                            <td>
-                              Rp{" "}
-                              {item.layanan?.harga || item.sparepart?.harga
-                                ? parseInt(
-                                    item.layanan?.harga || item.sparepart?.harga
-                                  ).toLocaleString("id-ID")
-                                : "0"}
-                            </td>
-                          </tr>
-                        ))}
+                        {selectedBooking.detail_servis.map((item) => {
+                          const nama =
+                            item.layanan?.nama || item.sparepart?.nama || "-";
+                          const deskripsi =
+                            item.layanan?.deskripsi ||
+                            item.sparepart?.deskripsi ||
+                            "-";
+                          const harga = parseInt(
+                            item.layanan?.harga || item.sparepart?.harga || 0
+                          );
+
+                          return (
+                            <tr key={item.id}>
+                              <td>{item.type}</td>
+                              <td>{nama}</td>
+                              <td>{deskripsi}</td>
+                              <td>Rp {harga.toLocaleString("id-ID")}</td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colSpan="3" className="text-end fw-bold">
+                            Total Harga
+                          </td>
+                          <td className="fw-bold text-success">
+                            Rp{" "}
+                            {selectedBooking.detail_servis
+                              .reduce((total, item) => {
+                                const harga = parseInt(
+                                  item.layanan?.harga ||
+                                    item.sparepart?.harga ||
+                                    0
+                                );
+                                return total + harga;
+                              }, 0)
+                              .toLocaleString("id-ID")}
+                          </td>
+                        </tr>
+                      </tfoot>
                     </table>
                   )}
                 </div>
@@ -263,7 +283,7 @@ export default function ListBooking() {
 
                 {parseInt(statusUpdate) >= 1 && (
                   <>
-                    <h5 className="text-info">Tambah Sparepart</h5>
+                    <h5 className="text-secondary">Tambah Sparepart</h5>
                     {detailServis.map((spId, index) => (
                       <div className="row mb-2" key={index}>
                         <div className="col-md-8">
@@ -305,6 +325,7 @@ export default function ListBooking() {
                   </>
                 )}
               </div>
+
               <div className="modal-footer">
                 <button className="btn btn-secondary" onClick={closeModal}>
                   Tutup

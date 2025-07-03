@@ -35,6 +35,14 @@
   color: antiquewhite;
 }
 
+.logo-image {
+  height: 90px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+
 .navbar-menu {
   display: flex;
   gap: 20px;
@@ -91,6 +99,50 @@
   display: none;
   cursor: pointer;
 }
+.dropdown-button-custom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1236a4;
+  border: 1px solid #dcdcdc;
+  border-radius: 30px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-button-custom:hover {
+  background-color: #f2f2f2;
+
+}
+.user-name-custom:hover{
+  color: #0d2b7a;
+}
+
+.user-image-custom {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.user-name-custom {
+  font-size: 14px;
+  font-weight: 500;
+  color: #f0f0f0;
+}
+
+.dropdown-icon {
+  color: #555;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-button-custom.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
 /* Sidebar Header (Logo & Nama) */
 .sidebar-header {
   display: flex;

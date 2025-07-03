@@ -1,12 +1,25 @@
-import { FaFacebook, FaInstagram, FaTwitter, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 import "../styles/footer.css";
+import logo from "../image/logo.png";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-logo">
-          <h2>BengkelFinder</h2>
+          <img
+            src={logo}
+            alt="Logo BengkelFinder"
+            className="footer-logo-img"
+          />
+
           <p>Membantu Anda menemukan bengkel terbaik di Kota Semarang.</p>
         </div>
 
@@ -17,13 +30,13 @@ const Footer = () => {
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="/about">About Us</a>
+              <a href="/caribengkel">Temukan Bengkel</a>
             </li>
             <li>
-              <a href="/services">Services</a>
+              <a href="/kemitraan">Kemitraan Bengkel</a>
             </li>
             <li>
-              <a href="/contact">Contact</a>
+              <a href="/kontak">Hubungi Kami</a>
             </li>
           </ul>
         </div>
@@ -34,10 +47,10 @@ const Footer = () => {
             <FaMapMarkerAlt /> Jl. Pahlawan No. 123, Semarang
           </p>
           <p>
-            <FaPhoneAlt /> +62 812 3456 7890
+            <FaPhoneAlt /> +62 123 456 789
           </p>
           <p>
-            <FaEnvelope /> info@bengkelfinder.com
+            <FaEnvelope /> motorez@gmail.com
           </p>
         </div>
 

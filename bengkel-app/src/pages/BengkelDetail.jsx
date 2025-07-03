@@ -129,13 +129,7 @@ export default function BengkelDetail() {
               <p>
                 <strong>Alamat:</strong> {bengkel.alamat}
               </p>
-              <p>
-                <strong>Kontak:</strong> {bengkel.telepon}
-              </p>
-              <div className="bg-info text-white p-1 px-2 rounded">
-                <i className="fas fa-users"></i>
-                <span> Antrian: {bengkel.antrian_count}</span>
-              </div>
+
               <div className="text">
                 <Link
                   to={`/booking/${id}`}

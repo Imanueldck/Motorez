@@ -103,8 +103,8 @@ export const updateBengkelStatus = async (id, status) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("User not authenticated");
 
-    const response = await axios.post(
-      `${API_URL}/admin_bengkel/update/bengkel/${id}`,
+    const response = await axios.put(
+      `${API_URL}/admin_bengkel/update_status/bengkel/${id}`,
       { status },
       {
         headers: {
