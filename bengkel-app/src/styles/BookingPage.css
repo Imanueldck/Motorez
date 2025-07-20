@@ -1,107 +1,172 @@
-/* Container utama */
+/* ======= Booking Page Container ======= */
 .bookingpage-container {
-    max-width: 720px;
-    margin: 60px auto;
-  }
-
-  /* Card styling */
-  .bookingpage-card {
-    background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-    border: none;
-  }
-  .bookingpage-form {
-    gap: 1.5rem;
-    padding: 20px;
-  }
-  
-  .bookingpage-form .mb-3 {
-    margin-bottom: 1.5rem;
-  }
-  /* Judul form */
-  .bookingpage-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #151618;
-    border-bottom: 2px solid #0d6efd20;
-    padding-bottom: 10px;
-  }
-  
-  /* Label input */
-  .bookingpage-label {
-    display: block;
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 6px;
-  }
-  .bookingpage-label:first-of-type {
-    margin-top: 1rem;
-    display: block;
-  }
-  
-  /* Input dan textarea */
-  .bookingpage-input,
-  .bookingpage-textarea {
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-    transition: all 0.2s ease;
-    font-size: 15px;
-    background-color: #ffffff;
-    padding: 10px 12px;
-    width: 100%;
-  }
-  
-  .bookingpage-input:focus,
-  .bookingpage-textarea:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.2);
-    outline: none;
-  }
-  
-  /* Tombol kirim */
-  .bookingpage-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #0d6efd;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .bookingpage-button:hover {
-    background-color: #0b5ed7;
-  }
-  .selected-services-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f5f7fa;
 }
 
-.selected-services-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #151618;
-  background-color: #f8f9fa;
+/* ======= Title ======= */
+.bookingpage-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.bookingpage-title::after {
+  content: "";
+  display: block;
+  width: 250px;
+  height: 4px;
+  background-color: #007bff;
+  margin: 8px auto 0; /* tengah otomatis */
+  border-radius: 2px;
+}
+
+
+
+/* ======= Info Bengkel Card ======= */
+.bookingpage-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937; /* Dark blue-gray */
+  text-align: center;
+}
+
+.bookinginfo-card {
+  background-color: #f9fbfc;       /* Lebih soft dari sebelumnya */
+  border-radius: 15px;
+  border: 1px solid #e0e7ff;
+  padding: 35px;                   /* Tambahkan padding ke seluruh card */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft shadow */
+}
+
+
+
+.bookinginfo-title,
+.bookinginfo-title2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.bookinginfo-title2 {
+  visibility: hidden;
+  height: 24px; /* agar tetap sejajar dengan nama bengkel */
+}
+
+.bookinginfo-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1d4ed8; /* Tailwind blue-700 */
+}
+
+.bookinginfo-alamat,
+.bookinginfo-telp {
+  color: #4b5563; /* Tailwind gray-600 */
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.bookinginfo-rating {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.bookinginfo-rating i {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.bookinginfo-desc {
+  font-size: 15px;
+  color: #6b7280; /* Tailwind gray-500 */
+  line-height: 1.5;
+}
+
+
+/* ======= Booking Form Card ======= */
+.bookingpage-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  margin-top: 30px;
   border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-.remove-service-button {
-  background-color: #dc3545;
+/* ======= Labels & Inputs ======= */
+.bookingpage-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.bookingpage-input,
+.bookingpage-textarea,
+.form-control,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #fdfdfd;
+  transition: all 0.3s ease;
+}
+
+.bookingpage-input:focus,
+.bookingpage-textarea:focus,
+.form-control:focus,
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  outline: none;
+}
+
+.bookingpage-textarea {
+  resize: vertical;
+}
+
+/* ======= Submit Button ======= */
+.bookingpage-button {
+  background-color: #007bff;
   color: white;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 16px;
   border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.bookingpage-button:hover {
+  background-color: #0056b3;
   cursor: pointer;
 }
 
-.remove-service-button:hover {
-  background-color: #c82333;
+/* ======= Responsive Spacing ======= */
+@media (max-width: 576px) {
+  .bookingpage-container {
+    padding: 15px;
+  }
+
+  .bookingpage-card,
+  .bookinginfo-card {
+    padding: 20px;
+  }
+
+  .bookingpage-title {
+    font-size: 22px;
+  }
+
+  .bookingpage-button {
+    font-size: 15px;
+  }
 }

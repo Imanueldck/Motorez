@@ -184,28 +184,54 @@ export default function BookingPage() {
   if (!bengkel)
     return <div className="text-center mt-5">Bengkel tidak ditemukan.</div>;
 
-  return (
-    <div className="bookingpage-container">
-      <div className="bookingpage-card">
-        <div className="card-body">
-          <h2 className="bookingpage-title">
-            Booking Service di {bengkel?.nama || "Bengkel"}
-          </h2>
-          <form onSubmit={handleSubmit} className="bookingpage-form">
-            <div className="mb-3">
-              <label className="bookingpage-label">Nama Kendaraan</label>
-              <input
-                type="text"
-                name="nama_kendaraan"
-                className="bookingpage-input"
-                value={form.nama_kendaraan}
-                onChange={handleChange}
-                placeholder="Contoh: Toyota Avanza"
-                required
-              />
-            </div>
+return (
+  <div className="bookingpage-container">
 
-            <div className="mb-3">
+    {/* Judul */}
+    <h2 className="bookingpage-title mb-4">
+      Booking Service di {bengkel?.nama || "Bengkel"}
+    </h2>
+
+    {/* Informasi Bengkel */}
+    <div className="bookinginfo-card mb-4 shadow-sm">
+      
+        <div className="row align-items-start">
+          {/* Kolom Kiri */}
+          <div className="col-md-6 mb-3 mb-md-0">
+            <h5 className="bookinginfo-title mb-3">Informasi Bengkel</h5>
+            <h4 className="bookinginfo-name mt-2 fw-bold">{bengkel.nama}</h4>
+            <p className="bookinginfo-alamat">{bengkel.alamat}</p>
+            <p className="bookinginfo-telp">{bengkel.no_hp}</p>
+          </div>
+
+          {/* Kolom Kanan */}
+          <div className="col-md-6">
+            <h5 className="bookinginfo-title2">www</h5>
+            <p className="bookinginfo-rating mb-2">
+              <i className="fas fa-star text-warning me-1"></i>
+              {bengkel.ulasan?.length > 0
+                ? (
+                    bengkel.ulasan.reduce((acc, item) => acc + item.stars, 0) /
+                    bengkel.ulasan.length
+                  ).toFixed(1)
+                : "0.0"}{" "}
+              ({bengkel.ulasan?.length || 0} ulasan)
+            </p>
+            <p className="bookinginfo-desc text-muted">
+              {bengkel.deskripsi || "Professional motorcycle service with experienced mechanics"}
+            </p>
+          </div>
+        </div>
+     
+    </div>
+
+    {/* Form Booking */}
+    <div className="bookingpage-card shadow-sm">
+      <div className="card-body">
+        <form onSubmit={handleSubmit} className="bookingpage-form">
+          {/* Nama dan Plat */}
+          <div className="row">
+            <div className="col-md-6 mb-3">
               <label className="bookingpage-label">Plat Nomor</label>
               <input
                 type="text"
@@ -217,22 +243,38 @@ export default function BookingPage() {
                 required
               />
             </div>
-
-            <div className="mb-3">
-              <label className="bookingpage-label">Keluhan / Catatan</label>
-              <textarea
-                name="keluhan"
-                className="bookingpage-textarea"
-                rows={4}
-                value={form.keluhan}
+            <div className="col-md-6 mb-3">
+              <label className="bookingpage-label">Nama Kendaraan</label>
+              <input
+                type="text"
+                name="nama_kendaraan"
+                className="bookingpage-input"
+                value={form.nama_kendaraan}
                 onChange={handleChange}
-                placeholder="Contoh: Ganti oli, rem bunyi, dll"
+                placeholder="Contoh: Honda Beat"
                 required
-              ></textarea>
+              />
             </div>
+          </div>
 
-            <div className="form-group mb-3">
-              <label>Tanggal Booking</label>
+          {/* Keluhan */}
+          <div className="mb-3">
+            <label className="bookingpage-label">Keluhan / Catatan</label>
+            <textarea
+              name="keluhan"
+              className="bookingpage-textarea"
+              rows={4}
+              value={form.keluhan}
+              onChange={handleChange}
+              placeholder="Contoh: Ganti oli, rem bunyi, dll"
+              required
+            ></textarea>
+          </div>
+
+          {/* Tanggal & Jam Booking */}
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="bookingpage-label">Tanggal Booking</label>
               <select
                 name="tgl_booking"
                 className="form-control"
@@ -254,8 +296,8 @@ export default function BookingPage() {
               </select>
             </div>
 
-            <div className="form-group mb-3">
-              <label>Jam Booking</label>
+            <div className="col-md-6 mb-3">
+              <label className="bookingpage-label">Jam Booking</label>
               <select
                 name="jam_booking"
                 className="form-control"
@@ -271,32 +313,36 @@ export default function BookingPage() {
                 ))}
               </select>
             </div>
+          </div>
 
-            <div className="mb-3">
-              <label className="bookingpage-label">Pilih Layanan</label>
-              <select
-                className="bookingpage-input"
-                name="jenis_layanan"
-                value={form.jenis_layanan}
-                onChange={handleLayananChange}
-                required
-              >
-                <option value="">-- Pilih Layanan --</option>
-                {layananOptions.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.nama} - Rp
-                    {parseInt(item.harga).toLocaleString("id-ID")}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Layanan */}
+          <div className="mb-3">
+            <label className="bookingpage-label">Pilih Layanan</label>
+            <select
+              className="bookingpage-input"
+              name="jenis_layanan"
+              value={form.jenis_layanan}
+              onChange={handleLayananChange}
+              required
+            >
+              <option value="">-- Pilih Layanan --</option>
+              {layananOptions.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.nama} - Rp{parseInt(item.harga).toLocaleString("id-ID")}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            <button type="submit" className="bookingpage-button">
-              Kirim Booking
-            </button>
-          </form>
-        </div>
+          <button type="submit" className="bookingpage-button w-100 mt-3">
+            Kirim Booking
+          </button>
+        </form>
       </div>
     </div>
-  );
+
+  </div>
+);
+
+
 }

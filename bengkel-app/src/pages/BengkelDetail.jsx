@@ -107,41 +107,34 @@ export default function BengkelDetail() {
         &larr; Kembali
       </Link>
 
-      <div className="detail-card mb-4">
-        <div className="row g-0">
-          <div className="col-md-4">
-            <img
-              src={bengkel.image || "/placeholder.jpg"}
-              className="detail-image"
-              alt={bengkel.nama}
-            />
-          </div>
-          <div className="col-md-8">
-            <div className="detail-card-body">
-              <h2 className="detail-title">{bengkel.nama}</h2>
-              <p>
-                <strong>Deskripsi:</strong> {bengkel.deskripsi}
-              </p>
-              <p>
-                <strong>Jam Operasional:</strong> {bengkel.jam_buka} -{" "}
-                {bengkel.jam_selesai}
-              </p>
-              <p>
-                <strong>Alamat:</strong> {bengkel.alamat}
-              </p>
+          {/* Kartu Informasi Bengkel */}
+    <div className="card shadow-sm mb-5">
+      <div className="row g-0">
+        <div className="col-md-4">
+          <img
+            src={bengkel.image || "/placeholder.jpg"}
+            className="img-fluid rounded-start h-100 object-fit-cover"
+            alt={bengkel.nama}
+          />
+        </div>
+        <div className="col-md-8">
+          <div className="card-body">
+            <h2 className="fw-bold mb-2 text-primary">{bengkel.nama}</h2>
+            <p className="mb-2"><strong>Deskripsi:</strong> {bengkel.deskripsi}</p>
+            <p className="mb-2">
+              <strong>Jam Operasional:</strong> 
+              <span className="badge bg-success mx-2">{bengkel.jam_buka}</span> - 
+              <span className="badge bg-danger mx-2">{bengkel.jam_selesai}</span>
+            </p>
+            <p className="mb-3"><strong>Alamat:</strong> {bengkel.alamat}</p>
+           <Link to={`/booking/${id}`} className="btn-booking-service">
+  <i className="fas fa-calendar-check me-2"></i> Ingin Service?
+</Link>
 
-              <div className="text">
-                <Link
-                  to={`/booking/${id}`}
-                  className="btn btn-primary detail-service-btn"
-                >
-                  Ingin Service?
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+    </div>
 
       {/* Tabs */}
       <ul className="nav nav-tabs mb-3" id="bengkelTab" role="tablist">

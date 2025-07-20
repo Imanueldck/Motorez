@@ -1,7 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const API_URL = "http://newapi.test/api";
+const API_URL = "https://api.motorez.my.id/api";
 
 // --- BENGKEL ---
 export const getBengkelOwner = async () => {
