@@ -121,15 +121,16 @@ export default function BengkelDetail() {
           <div className="card-body">
             <h2 className="fw-bold mb-2 text-primary">{bengkel.nama}</h2>
             <p className="mb-2"><strong>Deskripsi:</strong> {bengkel.deskripsi}</p>
-            <p className="mb-2">
+            <p className="jam-operasional mb-2">
               <strong>Jam Operasional:</strong> 
               <span className="badge bg-success mx-2">{bengkel.jam_buka}</span> - 
               <span className="badge bg-danger mx-2">{bengkel.jam_selesai}</span>
             </p>
+
             <p className="mb-3"><strong>Alamat:</strong> {bengkel.alamat}</p>
-           <Link to={`/booking/${id}`} className="btn-booking-service">
-  <i className="fas fa-calendar-check me-2"></i> Ingin Service?
-</Link>
+                    <Link to={`/booking/${id}`} className="btn-booking-service">
+            <i className="fas fa-calendar-check me-2"></i> Ingin Service?
+          </Link>
 
           </div>
         </div>
@@ -171,9 +172,9 @@ export default function BengkelDetail() {
             activeTab === "layanan" ? "show active" : ""
           }`}
         >
-          <h5>Daftar Layanan Tersedia:</h5>
+          <h5 class="review-title">Daftar Layanan Tersedia:</h5>
           {layanan.length === 0 ? (
-            <p>Tidak ada layanan tersedia.</p>
+            <p class="review-text">Tidak ada layanan tersedia.</p>
           ) : (
             <ul className="detail-layanan-list">
               {layanan.map((item) => (
@@ -228,9 +229,9 @@ export default function BengkelDetail() {
             activeTab === "ulasan" ? "show active" : ""
           }`}
         >
-          <h5>Ulasan Pelanggan:</h5>
-          {!bengkel.ulasan || bengkel.ulasan.length === 0 ? (
-            <p>Belum ada ulasan.</p>
+          <h5 class="review-title">Ulasan Pelanggan:</h5>
+          {!bengkel.ulasan || bengkel.ulasan.length === 0 ? ( 
+          <p class="review-text">Belum ada ulasan.</p>
           ) : (
             <ul className="list-group">
               {bengkel.ulasan.map((item) => (

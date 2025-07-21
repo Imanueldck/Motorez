@@ -94,7 +94,9 @@
   }
 
   .hero-image {
-    margin-top: 2rem; /* Beri jarak antara teks dan gambar */
+    margin-top: 2rem;
+    width: 80%;
+    max-width: 400px;
   }
 }
 
@@ -111,6 +113,11 @@
     font-size: 0.8rem;
     padding: 0.7rem 1.2rem;
   }
+
+  .hero-image {
+    width: 70%;
+    max-width: 300px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -126,4 +133,10 @@
     font-size: 0.8rem;
     padding: 0.6rem 1.1rem;
   }
+
+  .hero-image {
+    width: 90%;
+    max-width: 250px;
+  }
 }
+

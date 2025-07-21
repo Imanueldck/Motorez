@@ -76,7 +76,7 @@ export default function Bengkel() {
         <div className="caribengkel-content">
           <h1>Cari Bengkel Terdekat</h1>
           <p>
-            Temukan bengkel motor dan mobil terpercaya di sekitarmu. Cek detail
+            Temukan bengkel motor terpercaya di sekitarmu. Cek detail
             dan lokasi sekarang juga!
           </p>
           <input

@@ -294,3 +294,38 @@
 .rekomendasi-bengkel .detail-btn-info:hover {
   background-color: #0056b3;
 }
+
+.review-title {
+  color: #1236a4; /* Warna biru sesuai tema */
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.review-text {
+  color: #666;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-style: italic;
+}
+
+.jam-operasional {
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsive untuk layar kecil */
+@media (max-width: 576px) {
+  .jam-operasional {
+    font-size: 15px;
+    gap: 4px;
+  }
+
+  .jam-operasional .badge {
+    font-size: 12px;
+  }
+}
