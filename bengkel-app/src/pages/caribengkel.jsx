@@ -202,9 +202,11 @@ export default function Bengkel() {
                       alt={bengkel.nama}
                       className="daftarbengkel-image"
                     />
-                    <div className="daftarbengkel-card-body">
+                   <div className="daftarbengkel-card-body">
                       <h5 className="daftarbengkel-title">{bengkel.nama}</h5>
-                      <p className="mb-1">
+
+                      {/* Rating */}
+                      <p className="mb-2">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <i
                             key={star}
@@ -220,14 +222,24 @@ export default function Bengkel() {
                           ({(bengkel.ulasan_avg_stars ?? 0).toFixed(1)})
                         </span>
                       </p>
-                      <p>
-                        <strong>Jam:</strong> {bengkel.jam_buka.slice(0, 5)} -{" "}
-                        {bengkel.jam_selesai.slice(0, 5)}
-                      </p>
-                      <p>
-                        <strong>Jarak:</strong> {bengkel.distance} meters
-                      </p>
+
+                      {/* Info Kiri (Alamat, Jam, Jarak) */}
+                      <div className="daftarbengkel-info-list">
+                        <p>
+                          <i className="fas fa-map-marker-alt me-2 text-danger"></i>
+                          {bengkel.alamat}
+                        </p>
+                        <p>
+                          <i className="fas fa-clock me-2 text-primary"></i>
+                          {bengkel.jam_buka.slice(0, 5)} - {bengkel.jam_selesai.slice(0, 5)}
+                        </p>
+                        <p>
+                          <i className="fas fa-location-arrow me-2 text-success"></i>
+                          {bengkel.distance} meters
+                        </p>
+                      </div>
                     </div>
+
                   </div>
                 );
               })}

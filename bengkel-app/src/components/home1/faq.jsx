@@ -21,7 +21,7 @@ const faqs = [
   {
     question: "Apakah Motorez tersedia di seluruh Indonesia?",
     answer:
-      "Saat ini kami fokus di Kota Semarang, namun akan segera berkembang ke kota-kota lain di Indonesia.",
+      "Bengkel yang sudah terdaftar di Motorez bisa dari mana saja bahkan seluruh Indonesia",
   },
 ];
 

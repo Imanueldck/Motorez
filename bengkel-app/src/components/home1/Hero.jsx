@@ -1,16 +1,24 @@
 import heroImage from "../../assets/1.png";
 import "../../styles/Hero.css";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+    const navigate = useNavigate();
+
+  const handleCari= () => {
+    navigate("/caribengkel");
+  };
   return (
     <div className="hero-section">
       <div className="hero-content">
         <h1 className="hero-title">Temukan Bengkel Motor Dekat Lokasimu</h1>
         <p className="hero-subtitle">
-          Motorez menyediakan <a href="#bengkel-list">100+ pilihan bengkel</a>{" "}
+          Motorez menyediakan <a href="#">100+ pilihan bengkel</a>{" "}
           untuk memperbaiki kendaraanmu.
         </p>
-        <button className="hero-button">Cari bengkel terdekat</button>
+       <button className="hero-button" onClick={handleCari}>
+        Cari bengkel terdekat
+      </button>
       </div>
       <div className="hero-image">
         <img src={heroImage} alt="Hero" />

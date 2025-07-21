@@ -264,39 +264,40 @@ export default function BengkelDetail() {
       </div>
 
       {/* Rekomendasi */}
-      <div className="mt-5">
-        <h3>Rekomendasi Bengkel Lainnya</h3>
-        <div className="row">
-          {rekomendasi.map((item) => (
-            <div className="col-md-4 mb-3" key={item.id}>
-              <div
-                className="detail-rekomendasi-card"
-                onClick={() => goToDetail(item.id)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={item.image || "/placeholder.jpg"}
-                  className="detail-rekomendasi-image"
-                  alt={item.nama}
-                />
-                <div className="detail-rekomendasi-body">
-                  <h5>{item.nama}</h5>
-                  <p>{item.alamat}</p>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openNavigation(item.lat, item.long);
-                    }}
-                    className="btn detail-btn-info"
-                  >
-                    Arahkan ke Bengkel
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+<div className="rekomendasi-bengkel">
+  <h3>Rekomendasi Bengkel Lainnya</h3>
+  <div className="row">
+    {rekomendasi.map((item) => (
+      <div className="col-md-4 mb-3" key={item.id}>
+        <div
+          className="rekomendasi-bengkel-card"
+          onClick={() => goToDetail(item.id)}
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={item.image || "/placeholder.jpg"}
+            className="rekomendasi-bengkel-image"
+            alt={item.nama}
+          />
+          <div className="rekomendasi-bengkel-body">
+            <h5>{item.nama}</h5>
+            <p>{item.alamat}</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                openNavigation(item.lat, item.long);
+              }}
+              className="btn detail-btn-info"
+            >
+              Arahkan ke Bengkel
+            </button>
+          </div>
         </div>
       </div>
+    ))}
+  </div>
+</div>
+
     </div>
   );
 }

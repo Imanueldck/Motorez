@@ -229,3 +229,68 @@
     transform: translateY(0);
   }
 }
+/* Container utama */
+.rekomendasi-bengkel {
+  margin-top: 3rem;
+}
+
+.rekomendasi-bengkel h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Kartu rekomendasi */
+.rekomendasi-bengkel-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff;
+}
+
+.rekomendasi-bengkel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Gambar bengkel */
+.rekomendasi-bengkel-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Konten dalam kartu */
+.rekomendasi-bengkel-body {
+  padding: 1rem;
+}
+
+.rekomendasi-bengkel-body h5 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #007bff;
+}
+
+.rekomendasi-bengkel-body p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* Tombol */
+.rekomendasi-bengkel .detail-btn-info {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.rekomendasi-bengkel .detail-btn-info:hover {
+  background-color: #0056b3;
+}

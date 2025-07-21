@@ -4,6 +4,7 @@ import {
   updateBooking,
   getDetailBooking,
   inputUlasan,
+  deleteBooking,
 } from "../pages/HandleApi";
 import { NavLink } from "react-router-dom";
 import { Modal } from "bootstrap";
@@ -140,6 +141,20 @@ export default function RiwayatBooking() {
       console.error("Gagal mengirim ulasan:", err);
     }
   };
+
+  const handleCancelBooking = async (id) => {
+  try {
+    const result = await deleteBooking(id);
+    if (result) {
+      const updated = await getBooking();
+      setBookings(updated);
+    }
+  } catch (err) {
+    console.error("Gagal membatalkan booking:", err);
+  }
+};
+
+
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -300,6 +315,15 @@ export default function RiwayatBooking() {
                       >
                         Detail
                       </button>
+                      {booking.status === 0 && (
+  <button
+    className="btn btn-danger btn-sm"
+    onClick={() => handleCancelBooking(booking.id)}
+  >
+    Batalkan
+  </button>
+)}
+
                       {booking.status === 3 && (
                         <button
                           className="btn btn-success btn-sm"
@@ -348,6 +372,10 @@ export default function RiwayatBooking() {
                 {/* === Informasi Umum Booking === */}
                 <table className="table table-bordered table-sm mb-4">
                   <tbody>
+                    <tr>
+      <th>Nama Bengkel</th>
+      <td>{selectedBooking.bengkel?.nama || selectedBooking.bengkel_nama || "-"}</td>
+    </tr>
                     <tr>
                       <th style={{ width: "35%" }}>Nama</th>
                       <td>{selectedBooking.nama}</td>

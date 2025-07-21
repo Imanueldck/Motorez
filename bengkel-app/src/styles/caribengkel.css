@@ -160,6 +160,10 @@
 .daftarbengkel-card-body {
   padding: 1rem;
 }
+.daftarbengkel-alamat {
+  font-size: 0.92rem;
+  color: #666;
+}
 
 /* Judul */
 .daftarbengkel-title {
@@ -204,4 +208,25 @@
 
 .daftarbengkel-btn-card:hover {
   background-color: #0e2b82;
+}
+
+.daftarbengkel-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: #444;
+  margin-top: 8px;
+}
+
+.daftarbengkel-info-list p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.daftarbengkel-info-list i {
+  width: 20px;
+  font-size: 1rem;
 }

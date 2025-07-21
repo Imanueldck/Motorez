@@ -20,7 +20,7 @@ const Footer = () => {
             className="footer-logo-img"
           />
 
-          <p>Membantu Anda menemukan bengkel terbaik di Kota Semarang.</p>
+          <p>Membantu Anda menemukan bengkel terbaik di dekat anda.</p>
         </div>
 
         <div className="footer-links">
